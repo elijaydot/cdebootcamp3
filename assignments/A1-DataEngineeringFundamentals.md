@@ -17,7 +17,7 @@ This document describes a **conceptual end-to-end data pipeline** that brings al
 
 ## Architecture Diagram
 
-![Conceptual Data Pipeline](assets\pipeline-diagram.png)
+![Conceptual Data Pipeline](assets/pipeline-diagram.png)
 
 *Hybrid pipeline: continuous streaming for social media + batch processing for the other sources. All paths converge in a single trusted curated layer.*
 
