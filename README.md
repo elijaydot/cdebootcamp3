@@ -8,7 +8,7 @@ The goal is simple: learn the concepts, practise the workflows, and leave a usef
 
 ```text
 cdebootcamp3/
-├── assignments/   # Applied projects and design exercises
+├── assignments/   # Pipeline designs and practical automation projects
 ├── classes/       # Session notes, practical examples, and SQL scripts
 └── README.md       # You are here
 ```
@@ -30,7 +30,7 @@ cdebootcamp3/
 
 The SQL sessions are supported by practical scripts for [creating the Parch & Posey tables](classes/assets/Parch_and_Posey_Create_Table.sql), [loading sample data](classes/assets/Parch_and_Posey_Insert_Data.sql), and [practising DML operations](classes/assets/DML%20SQL%20Script.sql).
 
-## Featured Assignment
+## Featured Assignments
 
 ### Beejan Technologies Complaint Data Pipeline
 
@@ -40,19 +40,46 @@ The first assignment designs a conceptual end-to-end pipeline for customer compl
 
 ![Beejan Technologies conceptual complaint data pipeline](assignments/assets/pipeline-diagram.png)
 
+### Linux and Git Automation Project
+
+The second assignment turns Linux and Bash concepts into working data
+engineering tools. It includes an ETL script that downloads a public Stats NZ
+dataset, selects the required columns with Python's CSV library, and moves the
+results through raw, transformed, and Gold data layers.
+
+The project also includes an interactive file organizer that searches
+recursively for CSV and JSON files. It safely handles unusual filenames,
+prevents accidental overwrites, lets the user choose the destination location,
+and clearly reports moved, skipped, and failed files.
+
+A cron configuration demonstrates how the ETL pipeline can be scheduled to run
+automatically every day at midnight, with normal output and errors written to a
+log file.
+
+[Explore the Linux and Git project](assignments/linux-git-project-A2/README.md)
+
 ## Key Ideas I Am Building On
 
 - Reliable pipelines begin with a clear understanding of their sources.
 - Raw data should remain recoverable; curated data should remain trustworthy.
 - Batch and streaming are design choices, not popularity contests.
 - Linux fluency makes infrastructure less mysterious.
+- Small Bash scripts can turn repeated file and data tasks into reliable workflows.
 - Git is more than a backup tool: it is how engineering teams collaborate safely.
 - SQL turns relational data into trustworthy answers, but safe filtering and transaction discipline matter.
+- Validation, safe path handling, and useful logs make automation easier to trust.
 - Testing, reviews, observability, and documentation are part of the product.
 
 ## How to Explore
 
-Start with [Session 01](classes/01DengFundamentals1.md), follow the roadmap in order, and then visit the [assignments](assignments/) to see the concepts applied. The SQL scripts in [classes/assets](classes/assets/) provide hands-on practice alongside Sessions 09 and 10. Each class file is written as a standalone reference, so jumping directly to a topic works too.
+Start with [Session 01](classes/01DengFundamentals1.md), follow the roadmap in
+order, and then visit the [assignments](assignments/) to see the concepts
+applied. The [Linux and Git project](assignments/linux-git-project-A2/README.md)
+shows how Sessions 03 through 08 support practical scripting, scheduling, file
+management, and version-controlled development. The SQL scripts in
+[classes/assets](classes/assets/) provide hands-on practice alongside Sessions
+09 and 10. Each class file is written as a standalone reference, so jumping
+directly to a topic works too.
 
 ## About This Repository
 
