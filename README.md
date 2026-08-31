@@ -27,8 +27,9 @@ cdebootcamp3/
 | 08 | [Git III](classes/08Git3.md) | CI/CD, GitHub Actions, reviews, and production workflows |
 | 09 | [SQL I: RDBMS Foundations](classes/09SQL1.md) | Data classification, normalization, DDL/DML, transactions, and referential integrity |
 | 10 | [SQL II: Querying Data](classes/10SQL2.md) | DQL, filtering, date functions, sorting, aggregation, `WHERE`, and `HAVING` |
+| 11 | [Data Engineering Fundamentals Review](classes/11DengFundamentalsReviewSession.md) | Architecture trade-offs, batch versus streaming, medallion layers, resilience, and design reviews |
 
-The SQL sessions are supported by practical scripts for [creating the Parch & Posey tables](classes/assets/Parch_and_Posey_Create_Table.sql), [loading sample data](classes/assets/Parch_and_Posey_Insert_Data.sql), and [practising DML operations](classes/assets/DML%20SQL%20Script.sql).
+The SQL sessions are supported by practical scripts for [creating the Parch & Posey tables](classes/assets/Parch_and_Posey_Create_Table.sql), [loading sample data](classes/assets/Parch_and_Posey_Insert_Data.sql), [practising DML operations](classes/assets/DML%20SQL%20Script.sql), [working with `SELECT` and `WHERE`](classes/assets/01_SELECT_WHERE.sql), and [sorting, filtering, and querying dates](classes/assets/02_SORTING_FILTERING_DATES.sql).
 
 ## Featured Assignments
 
@@ -67,6 +68,7 @@ log file.
 - Small Bash scripts can turn repeated file and data tasks into reliable workflows.
 - Git is more than a backup tool: it is how engineering teams collaborate safely.
 - SQL turns relational data into trustworthy answers, but safe filtering and transaction discipline matter.
+- Architecture decisions should follow business SLAs, cost constraints, and failure scenarios rather than tool popularity.
 - Validation, safe path handling, and useful logs make automation easier to trust.
 - Testing, reviews, observability, and documentation are part of the product.
 
@@ -78,8 +80,10 @@ applied. The [Linux and Git project](assignments/linux-git-project-A2/README.md)
 shows how Sessions 03 through 08 support practical scripting, scheduling, file
 management, and version-controlled development. The SQL scripts in
 [classes/assets](classes/assets/) provide hands-on practice alongside Sessions
-09 and 10. Each class file is written as a standalone reference, so jumping
-directly to a topic works too.
+09 and 10. Finish with [Session 11](classes/11DengFundamentalsReviewSession.md)
+to revisit the complaint pipeline through peer design review, architecture
+trade-offs, and production failure scenarios. Each class file is written as a
+standalone reference, so jumping directly to a topic works too.
 
 ## About This Repository
 
