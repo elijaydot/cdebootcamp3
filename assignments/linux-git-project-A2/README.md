@@ -3,6 +3,7 @@
 A practical data engineering project built with Bash, Linux utilities, and
 Python's standard CSV library. It automates an ETL workflow and organizes CSV
 and JSON files with clear validation, safe path handling, and readable output.
+Here is the link to the [questions](https://github.com/coredataengineers/CDE-exercise/blob/main/linux-git/README.md)
 
 ## What Was Built
 

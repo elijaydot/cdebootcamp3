@@ -3,6 +3,8 @@
 > **Data Engineering Fundamentals Assignment**  
 > Conceptual design only • No tools mentioned
 
+> Here is the link to the [brief](https://docs.google.com/document/d/1A5LIpNdA6eSQ1eXQwWCXbDzsnEJ-e8E5/edit)
+
 ---
 
 ## Overview
