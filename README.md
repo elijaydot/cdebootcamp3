@@ -1,8 +1,8 @@
 # CDE Bootcamp 3: Data Engineering Learning Journal
 
-This repository documents my **Core Data Engineers Bootcamp 3** journey from data engineering foundations through Linux, Git, SQL, Python, data modeling, Change Data Capture, lakehouse architecture, dbt development and observability on Databricks, and Docker containerization.
+This repository documents my **Core Data Engineers Bootcamp 3** journey from data engineering foundations through Linux, Git, SQL, Python, data modeling, Change Data Capture, lakehouse architecture, production-minded dbt development on Databricks, and Docker containerization.
 
-The material combines class notes, architecture diagrams, commands, code examples, troubleshooting records, and practical assignments. The aim is not only to learn tools, but to understand how dependable data systems are designed, secured, tested, documented, and operated.
+The material combines class notes, architecture diagrams, commands, code examples, troubleshooting records, and practical assignments. The aim is not simply to collect tools, but to follow data from raw source to trusted model and then package the supporting applications so they run reliably anywhere.
 
 ## Repository Contents
 
@@ -12,7 +12,8 @@ cdebootcamp3/
 |   |-- A1-DataEngineeringFundamentals.md
 |   `-- linux-git-project-A2/
 |-- classes/                   # Notes and placeholders for Sessions 01-29
-|   |-- assets/                # SQL scripts and a Python notebook
+|   |-- assets/                # SQL scripts and practical training files
+|   |   `-- python_ipynb/      # Four days of Python notebooks and solutions
 |   |-- 01DengFundamentals1.md
 |   |-- ...
 |   `-- 29DOCKER2.md
@@ -73,27 +74,38 @@ The companion [dbt project](../cdc_modeling/cdc_marketing/) contains the working
 | 24 | [dbt I: Modern Analytics Engineering](classes/24DBT1.md) | ETL versus ELT, dbt's role, Astral `uv`, adapter installation, project initialization, dbt directories, Databricks profiles, PATs, OAuth service principals, and CI/CD preparation |
 | 25 | [dbt II: Connectivity, Debugging, and Compilation](classes/25DBT2.md) | dbt Core versus Cloud, Unity Catalog and SQL Warehouse setup, Windows/macOS/Linux configuration, `dbt debug`, compilation, execution, tests, static documentation, lineage, and troubleshooting |
 | 26 | [dbt III: Modeling and Data Observability](classes/26DBT3.md) | dbt package management, environment-based Databricks profiles, normalized marketing entities, modular source declarations, source freshness, dbt tests, Elementary observability reports, and troubleshooting |
-| 28 | [dbt IV](classes/28DBT4.md) | Class file reserved; session notes have not yet been added |
+| 28 | [dbt IV: Layered Modeling and DAG Lineage](classes/28DBT4.md) | Staging, intermediate, and marts layers; configuration precedence; Jinja `source()` and `ref()`; deduplication with window functions; graph operators; reusable tests; AI-ready documentation; and lineage troubleshooting |
 
 ### Docker and containerization
 
 | Session | Class | Main topics |
 | :---: | :--- | :--- |
 | 27 | [Docker I: Containerization Foundations](classes/27DOCKER1.md) | Deployment environment mismatches, virtual machines versus virtual environments, Linux namespaces and control groups, Docker on Windows and macOS, Dockerfiles, images, containers, and reproducible builds |
-| 29 | [Docker II](classes/29DOCKER2.md) | Class file reserved; session notes have not yet been added |
+| 29 | [Docker II: Images, Layers, and Container Lifecycles](classes/29DOCKER2.md) | Image immutability, writable container layers, foreground process lifecycles, stopped versus removed containers, build-cache invalidation, Dockerfile optimization, image building, execution, and debugging |
 
-> **Documentation status:** Sessions 13, 20, 28, and 29 currently contain empty placeholder files. They remain in the roadmap so the class sequence is complete and the missing notes are visible rather than silently omitted.
+> **Documentation status:** Sessions 13 and 20 currently contain empty placeholder files. Sessions 28 and 29 are now fully documented.
 
 ## Practical Assets
 
 The class material is supported by runnable examples in [classes/assets](classes/assets/):
+
+### SQL practice
 
 - [Parch & Posey table creation](classes/assets/Parch_and_Posey_Create_Table.sql)
 - [Parch & Posey sample data](classes/assets/Parch_and_Posey_Insert_Data.sql)
 - [DML practice](<classes/assets/DML SQL Script.sql>)
 - [`SELECT` and `WHERE` practice](classes/assets/01_SELECT_WHERE.sql)
 - [Sorting, filtering, and date queries](classes/assets/02_SORTING_FILTERING_DATES.sql)
-- [Python fundamentals notebook](classes/assets/1._python_basic_intro.ipynb)
+
+### Python training notebooks
+
+The [Python notebook collection](classes/assets/python_ipynb/) contains 31 class training files organized by teaching day. It includes guided exercises, revised versions, worked solutions, and focused examples that progress from Python syntax to complete data pipelines:
+
+- **Day 1 — Python foundations:** environment setup, Jupyter, expressions, variables, core data structures, operators, decisions, and loops. Start with [Python basics](classes/assets/python_ipynb/day_1/1._python_basic_intro.ipynb), then continue to [operators](classes/assets/python_ipynb/day_1/2._python_operators.ipynb) and [control flow](classes/assets/python_ipynb/day_1/3._python_control_flow.ipynb).
+- **Day 2 — Reusable and resilient code:** [functions, modules, packages, errors, and exceptions](classes/assets/python_ipynb/day_2/4.python_functions_modules_errors.ipynb), with exercise and solution variants in the same folder.
+- **Day 3 — Working with data:** detailed notebooks for [data structures](<classes/assets/python_ipynb/day_3/1. Detailed_Data_Structures.ipynb>), [file handling](<classes/assets/python_ipynb/day_3/2. Detailed_File_Handling.ipynb>), and [data manipulation with pandas](<classes/assets/python_ipynb/day_3/3. Detailed_Data_Manipulation_with_Pandas.ipynb>).
+- **Day 4 — Data engineering with Python:** practical notebooks for [database interaction](<classes/assets/python_ipynb/day_4/1. Detailed_Database_Interaction.ipynb>), [APIs and web scraping](<classes/assets/python_ipynb/day_4/2. Comprehensive_API_Web_Scraping.ipynb>), [end-to-end ETL](<classes/assets/python_ipynb/day_4/3. Comprehensive_ETL_Data_Pipeline.ipynb>), and full versus incremental loading.
+- **Bonus practice:** [choosing between dictionaries and lists of dictionaries](<classes/assets/python_ipynb/BONUS. Data_Shapes_dict_vs_list_of_dict.ipynb>) when navigating common data shapes.
 
 ## Practical Assignments
 
@@ -114,32 +126,42 @@ The [second assignment](assignments/linux-git-project-A2/README.md) converts Lin
 
 ## Current Technical Milestone
 
-The latest work extends the initial dbt and Databricks setup into a modular marketing data model with quality checks and observability, then introduces Docker as the next step toward portable, reproducible deployment.
+The latest work closes the gap between writing transformations and engineering a maintainable data product. Raw marketing data now moves through explicit dbt layers with visible lineage and enforceable quality rules, while the Docker sessions show how application code and its runtime can be packaged as a repeatable deployment unit.
 
 ```text
 Raw Facebook marketing tables in Databricks
 	|
-	| dbt sources, staging models, tests, and freshness checks
+	| source() and lightweight staging views
 	v
-Tested marketing models and Elementary metadata
+Typed, renamed, and documented source-aligned models
 	|
-	| edr report
+	| ref(), joins, ROW_NUMBER(), and QUALIFY
 	v
-Standalone observability dashboard
+Deduplicated intermediate marketing model
+	|
+	| tests, lineage, documentation, and Elementary
+	v
+Trusted foundation for business-facing marts
 ```
 
-The expanded workflow and class material now cover:
+The latest dbt work adds:
 
-1. Managing `dbt_utils`, `dbt_expectations`, and Elementary through a root-level `packages.yml`.
-2. Configuring development, CI, staging, production, and Elementary targets with environment variables.
-3. Modeling the Account-to-Campaign-to-AdGroup-to-Ad hierarchy and enforcing its referential rules.
-4. Organizing platform-specific source declarations and staging models under `models/staging/facebook/`.
-5. Running `dbt deps`, `dbt compile`, `dbt build`, source freshness checks, and `edr report` in the correct order.
-6. Diagnosing GitHub authorization, YAML parsing, source selection, and virtual-environment issues.
-7. Understanding why Python environments and traditional VMs do not fully solve cross-platform deployment.
-8. Relating Dockerfiles, images, and containers to Linux namespaces, control groups, and reproducible data pipelines.
+1. A clear separation between staging views, intermediate tables or incremental models, and business-facing marts.
+2. Portable Jinja references with `source()` and `ref()` instead of hardcoded catalog paths.
+3. Latest-record deduplication with `ROW_NUMBER()` and `QUALIFY` before joining accounts, campaigns, ad groups, and ads.
+4. Generic and singular tests for uniqueness, accepted values, required columns, and business-specific failures.
+5. Column-level metadata that improves both human understanding and the accuracy of tools such as Databricks Genie.
+6. Targeted lineage builds with dbt graph operators, plus static documentation and Elementary reporting.
 
-The setup foundation is documented in [Session 25](classes/25DBT2.md), the advanced modeling and observability workflow is in [Session 26](classes/26DBT3.md), and the containerization concepts are introduced in [Session 27](classes/27DOCKER1.md).
+The Docker work turns the earlier containerization concepts into a practical operating model:
+
+1. Images remain immutable even when a running container’s writable layer is changed or damaged.
+2. A container lives only while its foreground process is running, and stopped containers remain until removed.
+3. Dockerfile instructions create cached layers whose order directly affects rebuild speed.
+4. Stable dependency files should be copied and installed before frequently changing application code.
+5. The complete build-and-run loop now includes authoring a Dockerfile, tagging an image, starting a named container, inspecting its state, and troubleshooting local daemon or build-context failures.
+
+The progression is documented across [Session 28](classes/28DBT4.md) for dbt and [Session 29](classes/29DOCKER2.md) for Docker.
 
 ## Core Engineering Principles
 
@@ -154,14 +176,18 @@ The setup foundation is documented in [Session 25](classes/25DBT2.md), the advan
 - Keep environments reproducible with dependency files and isolated runtimes.
 - Keep credentials out of source control; use environment variables locally and managed secret stores in automation.
 - Make SQL transformations modular and dependency-aware with dbt `ref()` and `source()`.
+- Give staging, intermediate, and marts models distinct responsibilities and materializations.
+- Document columns as part of the data contract so people, BI tools, and AI agents interpret them consistently.
 - Monitor source freshness, test relational assumptions, and expose failures through observability tooling.
 - Package application code with its system dependencies so it behaves consistently across development and production.
 - Pin dependency versions and treat container images as immutable, reproducible deployment units.
+- Order Dockerfile instructions from least frequently changed to most frequently changed to preserve useful build-cache layers.
+- Keep persistent data outside disposable containers by using appropriate mounted storage.
 - Test, review, observe, document, and secure data products as part of their implementation, not as afterthoughts.
 
 ## Suggested Reading Order
 
-Follow Sessions 01-29 in numerical order for the full progression, skipping the documented placeholders until their notes are added. The sequence moves from system fundamentals into operating-system and collaboration skills, then SQL and Python, followed by workload-aware modeling, CDC and lakehouse governance, dbt implementation and observability on Databricks, and Docker containerization.
+Follow Sessions 01-29 in numerical order for the full progression, skipping Sessions 13 and 20 until their notes are added. The sequence moves from system fundamentals into operating-system and collaboration skills, then SQL and Python, followed by workload-aware modeling, CDC and lakehouse governance, layered dbt development on Databricks, and hands-on Docker containerization.
 
 For a topic-focused route:
 
@@ -171,16 +197,16 @@ For a topic-focused route:
 - **SQL:** Sessions 09, 10, 12, and 13 *(Session 13 is reserved)*
 - **Python:** Sessions 14, 15, 17, 20, 22, and 23 *(Session 20 is reserved)*
 - **Data Modeling:** Sessions 16, 18, 19, and 21
-- **dbt:** Sessions 24, 25, 26, and 28 *(Session 28 is reserved)*
-- **Docker:** Sessions 27 and 29 *(Session 29 is reserved)*
+- **dbt:** Sessions 24, 25, 26, and 28
+- **Docker:** Sessions 27 and 29
 - **Hands-on projects:** [assignments](assignments/) and [class assets](classes/assets/)
 
 Each populated class file is designed to work as a standalone technical reference, so readers can also jump directly to the topic they need.
 
 ## About This Repository
 
-This is an evolving collection of notes and assignments from **CDE Bootcamp 3**. It records both technical lessons and the professional habits required to build dependable data systems, from raw operational events to tested, documented analytical models.
+This is an evolving collection of notes and assignments from **CDE Bootcamp 3**. It records both technical lessons and the professional habits required to build dependable data systems, from raw operational events to tested analytical models and portable application runtimes.
 
 ---
 
-<p align="center"><strong>From raw events to reliable insight.</strong></p>
+<p align="center"><strong>From raw events to reliable, portable data products.</strong></p>

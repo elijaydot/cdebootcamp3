@@ -326,3 +326,15 @@ Ahmed addressed how engineers should prepare for high-stakes interviews when fac
 
 - Breakdown of the end-to-end modern data stack (operational app $\rightarrow$ OLTP RDBMS $\rightarrow$ read replica $\rightarrow$ ELT $\rightarrow$ Cloud DWH $\rightarrow$ BI/Reverse ETL).
 - Ahmed's career framework on understanding functional categories (orchestration, warehousing, storage) so skills transfer effortlessly between cloud ecosystems (e.g., AWS S3 vs. Azure Blob, Airflow vs. Prefect).
+
+---
+
+## Class Training Notebooks
+
+- [Functions, modules, packages, errors, and exceptions](assets/python_ipynb/day_2/4.python_functions_modules_errors.ipynb) reviews reusable functions and defensive error handling.
+- [Functions and exceptions solutions](assets/python_ipynb/day_2/4.python_functions_modules_errors_SOLUTIONS.ipynb) contains the worked answers.
+- [Detailed file handling](<assets/python_ipynb/day_3/2. Detailed_File_Handling.ipynb>) covers file modes, context managers, reading, writing, binary files, and exceptions.
+- [File handling solutions](<assets/python_ipynb/day_3/2. Detailed_File_Handling_SOLUTIONS.ipynb>) contains the worked answers.
+- [Data manipulation with pandas](<assets/python_ipynb/day_3/3. Detailed_Data_Manipulation_with_Pandas.ipynb>) covers ingestion, inspection, filtering, missing data, aggregation, joins, sorting, and transformation.
+- [Pandas solutions](<assets/python_ipynb/day_3/3. Detailed_Data_Manipulation_with_Pandas_SOLUTIONS.ipynb>) contains the worked answers.
+- [Bonus: data shapes](<assets/python_ipynb/BONUS. Data_Shapes_dict_vs_list_of_dict.ipynb>) reinforces navigation through nested dictionaries and lists of dictionaries.

@@ -215,3 +215,12 @@ Ahmed concluded by previewing programmatic loops, contrasting manual human limit
    * Practice creating dictionaries, mutating keys, and deduplicating list data using `set()`.
    * Experiment with Jupyter `Tab` completion on string and integer variables.
 3. **Class Schedule:** The cohort reconvenes **tomorrow at 4:00 PM West Africa Time (WAT)** for advanced control flow, comprehensive loop patterns, and modular Python functions.
+
+---
+
+## Class Training Notebooks
+
+- [Python operators](assets/python_ipynb/day_1/2._python_operators.ipynb) provides hands-on practice with arithmetic, assignment, comparison, and logical operators.
+- [Python control flow](assets/python_ipynb/day_1/3._python_control_flow.ipynb) covers conditional statements, loops, and data-pipeline exercises.
+- [Control flow solutions](assets/python_ipynb/day_1/3._python_control_flow_SOLUTIONS.ipynb) contains the worked answers.
+- [Functions, modules, packages, errors, and exceptions](assets/python_ipynb/day_2/4.python_functions_modules_errors.ipynb) continues the progression into reusable and resilient Python code.

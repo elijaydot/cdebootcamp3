@@ -62,7 +62,7 @@ Ahmed simplified all software development into a single truth:
 
 ## 4. Scalar Data Types & String Manipulation
 
-Jupyter [File](cdebootcamp3\classes\assets\1._python_basic_intro.ipynb) used in class.
+The practical examples for this section are in the [Python basics notebook](assets/python_ipynb/day_1/1._python_basic_intro.ipynb).
 
 Python provides core scalar primitives to handle atomic values:
 
@@ -277,3 +277,12 @@ Ahmed highlighted foundational engineering tenets from Python's philosophy:
 
 - Practice hands-on slicing, mutations, and `.append()` vs. `.extend()` operations inside Jupyter Notebook.
 - Prepare for the upcoming live coding exercise: writing an interactive script that processes dynamic input, updates account balances, and leverages dictionaries and sets.
+
+---
+
+## Class Training Notebooks
+
+- [Python basics](assets/python_ipynb/day_1/1._python_basic_intro.ipynb) covers expressions, variables, scalar types, strings, booleans, lists, and tuples.
+- [Detailed data structures](<assets/python_ipynb/day_3/1. Detailed_Data_Structures.ipynb>) provides additional practice with lists, tuples, sets, and dictionaries.
+- [Detailed data structures solutions](<assets/python_ipynb/day_3/1. Detailed_Data_Structures_SOLUTIONS.ipynb>) contains the worked answers.
+- [Bonus: data shapes](<assets/python_ipynb/BONUS. Data_Shapes_dict_vs_list_of_dict.ipynb>) explains dictionaries, lists of dictionaries, dictionaries of dictionaries, and column-oriented structures.

@@ -136,3 +136,9 @@ During the extended practical laboratory, several students resolved common onboa
 2. **Terminal Navigation Mastery:** Practice launching Jupyter Notebook directly from your dedicated project folder inside the terminal.
 3. **Structured Practice Schedule:** Spend **1 hour Saturday, 2 hours Sunday, and 1 hour prior to Monday's lecture** verifying that notebooks, packages, and terminals run cleanly.
 4. **Upcoming Topic:** Python Language Fundamentals, syntax, variables, data structures, and pipeline primitives.
+
+---
+
+## Class Training Notebook
+
+- [Python for Data Engineering — Day 1](assets/python_ipynb/day_1/1._python_basic_intro.ipynb) reinforces the environment setup, Anaconda, VS Code, Jupyter workflow, and introductory Python concepts covered in this session.

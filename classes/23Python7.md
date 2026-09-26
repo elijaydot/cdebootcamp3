@@ -689,3 +689,15 @@ If this class had one slogan, it would be:
 **“Think first, code second, and always build for the business.”**
 
 Ahmed repeatedly showed that real engineering is not about writing flashy code. It is about making good decisions, understanding the source, and building reliable pipelines that work in the real world.
+
+---
+
+## Class Training Notebooks
+
+- [Detailed database interaction](<assets/python_ipynb/day_4/1. Detailed_Database_Interaction.ipynb>) covers SQLite, SQL queries, transactions, parameterized statements, PostgreSQL, SQLAlchemy, pandas, and database exceptions.
+- [Database interaction solutions](<assets/python_ipynb/day_4/1. Detailed_Database_Interaction_SOLUTIONS.ipynb>) contains the worked answers.
+- [APIs and web scraping](<assets/python_ipynb/day_4/2. Comprehensive_API_Web_Scraping.ipynb>) covers HTTP requests, status codes, pagination, and BeautifulSoup.
+- [API and web scraping solutions](<assets/python_ipynb/day_4/2. Comprehensive_API_Web_Scraping_SOLUTIONS.ipynb>) contains the worked answers.
+- [Comprehensive ETL data pipeline](<assets/python_ipynb/day_4/3. Comprehensive_ETL_Data_Pipeline.ipynb>) moves through extraction, transformation, loading, reusable pipelines, and Airflow scheduling.
+- [ETL pipeline solutions](<assets/python_ipynb/day_4/3. Comprehensive_ETL_Data_Pipeline_SOLUTIONS.ipynb>) contains the worked answers.
+- [Full-load ETL](assets/python_ipynb/day_4/etl_full_load.ipynb), [incremental ETL](assets/python_ipynb/day_4/etl_incremental.ipynb), and [pipeline functions](assets/python_ipynb/day_4/pipeline_function.ipynb) provide focused implementation examples.
