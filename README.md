@@ -1,8 +1,8 @@
 # CDE Bootcamp 3: Data Engineering Learning Journal
 
-This repository documents my **Core Data Engineers Bootcamp 3** journey from data engineering foundations through Linux, Git, SQL, Python, data modeling, Change Data Capture, lakehouse architecture, production-minded dbt development on Databricks, and Docker containerization.
+This repository documents my **Core Data Engineers Bootcamp 3** journey from data engineering foundations through Linux, Git, SQL, Python, data modeling, Change Data Capture, lakehouse architecture, production-minded dbt development on Databricks, Docker containerization, and modern ELT ingestion with Airbyte.
 
-The material combines class notes, architecture diagrams, commands, code examples, troubleshooting records, and practical assignments. The aim is not simply to collect tools, but to follow data from raw source to trusted model and then package the supporting applications so they run reliably anywhere.
+The material combines class notes, architecture diagrams, commands, code examples, troubleshooting records, and practical assignments. The aim is not simply to collect tools, but to follow data from operational sources through reliable ingestion and transformation into trusted models, then package the supporting applications so they run consistently anywhere.
 
 ## Repository Contents
 
@@ -11,12 +11,12 @@ cdebootcamp3/
 |-- assignments/               # Architecture and automation projects
 |   |-- A1-DataEngineeringFundamentals.md
 |   `-- linux-git-project-A2/
-|-- classes/                   # Notes and placeholders for Sessions 01-29
+|-- classes/                   # Notes and placeholders for Sessions 01-38
 |   |-- assets/                # SQL scripts and practical training files
 |   |   `-- python_ipynb/      # Four days of Python notebooks and solutions
 |   |-- 01DengFundamentals1.md
 |   |-- ...
-|   `-- 29DOCKER2.md
+|   `-- 38AIRBYTE4.md
 `-- README.md
 ```
 
@@ -75,6 +75,7 @@ The companion [dbt project](../cdc_modeling/cdc_marketing/) contains the working
 | 25 | [dbt II: Connectivity, Debugging, and Compilation](classes/25DBT2.md) | dbt Core versus Cloud, Unity Catalog and SQL Warehouse setup, Windows/macOS/Linux configuration, `dbt debug`, compilation, execution, tests, static documentation, lineage, and troubleshooting |
 | 26 | [dbt III: Modeling and Data Observability](classes/26DBT3.md) | dbt package management, environment-based Databricks profiles, normalized marketing entities, modular source declarations, source freshness, dbt tests, Elementary observability reports, and troubleshooting |
 | 28 | [dbt IV: Layered Modeling and DAG Lineage](classes/28DBT4.md) | Staging, intermediate, and marts layers; configuration precedence; Jinja `source()` and `ref()`; deduplication with window functions; graph operators; reusable tests; AI-ready documentation; and lineage troubleshooting |
+| 30 | [dbt V: Production-Grade Optimization](classes/30DBT5.md) | Dynamic database and schema macros, environment isolation, CI/CD safety, dimensional modeling, incremental strategies, merge versus append, and microbatch optimization |
 
 ### Docker and containerization
 
@@ -82,8 +83,21 @@ The companion [dbt project](../cdc_modeling/cdc_marketing/) contains the working
 | :---: | :--- | :--- |
 | 27 | [Docker I: Containerization Foundations](classes/27DOCKER1.md) | Deployment environment mismatches, virtual machines versus virtual environments, Linux namespaces and control groups, Docker on Windows and macOS, Dockerfiles, images, containers, and reproducible builds |
 | 29 | [Docker II: Images, Layers, and Container Lifecycles](classes/29DOCKER2.md) | Image immutability, writable container layers, foreground process lifecycles, stopped versus removed containers, build-cache invalidation, Dockerfile optimization, image building, execution, and debugging |
+| 31 | [Docker III: Caching, Execution, and Working Directories](classes/31DOCKER3.md) | Image history, layer-cache invalidation, `docker exec`, `docker run` versus `docker start`, `WORKDIR`, and containerized data pipeline tasks |
+| 32 | [Docker IV: Volumes, Ports, and Persistence](classes/32DOCKER4.md) | Ephemeral container storage, bind mounts and volumes, port mapping, persistent PostgreSQL containers, host-container communication, and DBeaver connectivity |
+| 34 | [Docker V](classes/34DOCKER5.md) | Class file reserved; full session notes have not yet been added |
+| 35 | [Docker VI: Compose and Production Optimization](classes/35DOCKER6.md) | Docker Engine architecture, `CMD` versus `ENTRYPOINT`, Compose services, YAML reuse, multi-stage builds, non-root containers, and resource limits |
 
-> **Documentation status:** Sessions 13 and 20 currently contain empty placeholder files. Sessions 28 and 29 are now fully documented.
+### Airbyte and production data ingestion
+
+| Session | Class | Main topics |
+| :---: | :--- | :--- |
+| 33 | [Airbyte I: Modern Data Movement](classes/33AIRBYTE1.md) | OLTP-to-OLAP data movement, ETL versus ELT and Reverse ETL, data at rest versus in motion, ingestion architecture, and Airbyte fundamentals |
+| 36 | [Airbyte II: Lakehouse Integration](classes/36AIRBYTE2.md) | Engineering onboarding, medallion architecture, cloud compute and storage economics, and an end-to-end PostgreSQL-to-Snowflake Airbyte pipeline |
+| 37 | [Airbyte III: Sync Strategies and Resilient Architecture](classes/37AIRBYTE3.md) | Full refresh versus incremental replication, cursor-based ingestion, CDC internals, source fidelity, staging patterns, production triage, and warehouse time travel |
+| 38 | [Airbyte IV: Custom Connectors and Production Warehousing](classes/38AIRBYTE4.md) | Airbyte sync modes, incremental append and deduplication, API connector development, pagination, schema evolution, POC safety, and semi-structured JSON handling |
+
+> **Documentation status:** Sessions 13 and 20 currently contain empty placeholder files, and Session 34 contains only a brief placeholder. Sessions 30-33 and 35-38 are now documented.
 
 ## Practical Assets
 
@@ -126,42 +140,38 @@ The [second assignment](assignments/linux-git-project-A2/README.md) converts Lin
 
 ## Current Technical Milestone
 
-The latest work closes the gap between writing transformations and engineering a maintainable data product. Raw marketing data now moves through explicit dbt layers with visible lineage and enforceable quality rules, while the Docker sessions show how application code and its runtime can be packaged as a repeatable deployment unit.
+The latest work connects the full modern analytics engineering lifecycle: Airbyte moves source data into a lakehouse or warehouse, dbt turns raw records into governed analytical models, and Docker packages the services and supporting tools into reproducible runtime environments.
 
 ```text
-Raw Facebook marketing tables in Databricks
+Operational databases, SaaS APIs, and event sources
 	|
-	| source() and lightweight staging views
+	| Airbyte full-refresh, incremental, or CDC ingestion
 	v
-Typed, renamed, and documented source-aligned models
+Raw / Bronze landing layer with source fidelity
 	|
-	| ref(), joins, ROW_NUMBER(), and QUALIFY
+	| dbt staging, testing, deduplication, and enrichment
 	v
-Deduplicated intermediate marketing model
+Conformed Silver models and business-facing Gold marts
 	|
-	| tests, lineage, documentation, and Elementary
+	| BI, ML, reverse ETL, and operational consumption
 	v
-Trusted foundation for business-facing marts
+Trusted data products running in reproducible containers
 ```
 
-The latest dbt work adds:
+The advanced dbt work now includes dynamic database and schema macros, safe environment routing, CI/CD-controlled production targets, dimensional marts, and incremental strategies ranging from merge and append to microbatch processing. These topics build on the layered models, tests, lineage, documentation, and Elementary observability established in earlier sessions.
 
-1. A clear separation between staging views, intermediate tables or incremental models, and business-facing marts.
-2. Portable Jinja references with `source()` and `ref()` instead of hardcoded catalog paths.
-3. Latest-record deduplication with `ROW_NUMBER()` and `QUALIFY` before joining accounts, campaigns, ad groups, and ads.
-4. Generic and singular tests for uniqueness, accepted values, required columns, and business-specific failures.
-5. Column-level metadata that improves both human understanding and the accuracy of tools such as Databricks Genie.
-6. Targeted lineage builds with dbt graph operators, plus static documentation and Elementary reporting.
+The completed Docker sequence now covers image forensics and cache optimization, interactive container inspection, working-directory hygiene, persistent volumes, port mapping, multi-container orchestration with Docker Compose, multi-stage builds, non-root execution, and CPU, memory, swap, and logging guardrails.
 
-The Docker work turns the earlier containerization concepts into a practical operating model:
+The newest Airbyte sessions extend the repository into production data movement:
 
-1. Images remain immutable even when a running container’s writable layer is changed or damaged.
-2. A container lives only while its foreground process is running, and stopped containers remain until removed.
-3. Dockerfile instructions create cached layers whose order directly affects rebuild speed.
-4. Stable dependency files should be copied and installed before frequently changing application code.
-5. The complete build-and-run loop now includes authoring a Dockerfile, tagging an image, starting a named container, inspecting its state, and troubleshooting local daemon or build-context failures.
+1. Select full-refresh, incremental append, or incremental append-and-deduplicate modes according to source behavior, volume, cost, cursor availability, and primary-key semantics.
+2. Preserve raw source fidelity and treat cleanup, conformance, and enrichment as downstream transformation responsibilities.
+3. Separate ingestion engines from orchestrators: Airbyte moves data, Airflow coordinates dependencies, and dbt transforms data in the destination.
+4. Understand the difference between query-driven cursor polling and log-based CDC through database WAL or binlog internals.
+5. Build API connectors with explicit record paths, pagination, schema handling, and state management.
+6. Use isolated POC environments, synthetic test data, staging storage, observability, and warehouse time travel to reduce production risk.
 
-The progression is documented across [Session 28](classes/28DBT4.md) for dbt and [Session 29](classes/29DOCKER2.md) for Docker.
+This progression is documented in [Session 30](classes/30DBT5.md) for advanced dbt, [Sessions 31-35](classes/31DOCKER3.md) for Docker, and [Sessions 33 and 36-38](classes/33AIRBYTE1.md) for Airbyte and ingestion architecture.
 
 ## Core Engineering Principles
 
@@ -183,11 +193,15 @@ The progression is documented across [Session 28](classes/28DBT4.md) for dbt and
 - Pin dependency versions and treat container images as immutable, reproducible deployment units.
 - Order Dockerfile instructions from least frequently changed to most frequently changed to preserve useful build-cache layers.
 - Keep persistent data outside disposable containers by using appropriate mounted storage.
+- Treat container networking, ports, volumes, process ownership, and resource limits as explicit production configuration.
+- Choose ingestion sync modes from source mutability, data volume, cursor reliability, destination semantics, and recovery requirements.
+- Keep ingestion, orchestration, transformation, and serving responsibilities separated across purpose-built tools.
+- Preserve source fidelity in raw storage and make pipeline state, schema evolution, pagination, and deduplication explicit.
 - Test, review, observe, document, and secure data products as part of their implementation, not as afterthoughts.
 
 ## Suggested Reading Order
 
-Follow Sessions 01-29 in numerical order for the full progression, skipping Sessions 13 and 20 until their notes are added. The sequence moves from system fundamentals into operating-system and collaboration skills, then SQL and Python, followed by workload-aware modeling, CDC and lakehouse governance, layered dbt development on Databricks, and hands-on Docker containerization.
+Follow Sessions 01-38 in numerical order for the full progression, skipping Sessions 13, 20, and 34 until their notes are added. The sequence moves from system fundamentals into operating-system and collaboration skills, then SQL and Python, followed by workload-aware modeling, CDC and lakehouse governance, layered dbt development on Databricks, Docker containerization, and production ELT ingestion with Airbyte.
 
 For a topic-focused route:
 
@@ -197,16 +211,17 @@ For a topic-focused route:
 - **SQL:** Sessions 09, 10, 12, and 13 *(Session 13 is reserved)*
 - **Python:** Sessions 14, 15, 17, 20, 22, and 23 *(Session 20 is reserved)*
 - **Data Modeling:** Sessions 16, 18, 19, and 21
-- **dbt:** Sessions 24, 25, 26, and 28
-- **Docker:** Sessions 27 and 29
+- **dbt:** Sessions 24, 25, 26, 28, and 30
+- **Docker:** Sessions 27, 29, 31, 32, 34, and 35 *(Session 34 is reserved)*
+- **Airbyte and ingestion:** Sessions 33, 36, 37, and 38
 - **Hands-on projects:** [assignments](assignments/) and [class assets](classes/assets/)
 
 Each populated class file is designed to work as a standalone technical reference, so readers can also jump directly to the topic they need.
 
 ## About This Repository
 
-This is an evolving collection of notes and assignments from **CDE Bootcamp 3**. It records both technical lessons and the professional habits required to build dependable data systems, from raw operational events to tested analytical models and portable application runtimes.
+This is an evolving collection of notes and assignments from **CDE Bootcamp 3**. It records both technical lessons and the professional habits required to build dependable data systems, from raw operational events through resilient ingestion and tested analytical models to portable application runtimes.
 
 ---
 
-<p align="center"><strong>From raw events to reliable, portable data products.</strong></p>
+<p align="center"><strong>From source systems to reliable, observable, and portable data products.</strong></p>
