@@ -1,4 +1,4 @@
-# 🌪️ Demystifying Data Orchestration: From Jollof Rice to Apache Airflow
+# Demystifying Data Orchestration: From Jollof Rice to Apache Airflow
 
 *A Deep-Dive Summary of the Airflow Module Kickoff with Najeeb Sulaiman*
 
@@ -166,7 +166,7 @@ To avoid running everything in one monolithic script, he scheduled the discrete 
 
 ---
 
-### 🛠️ Stage 3: The Custom In-House Framework
+### Stage 3: The Custom In-House Framework
 
 Determined to fix state-blindness, Dele spent weeks writing a custom Python orchestration framework featuring `try/except` blocks, custom polling loops, custom SQLite metadata tracking, and Slack webhook alerts.
 
