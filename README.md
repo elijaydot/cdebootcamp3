@@ -1,21 +1,40 @@
-# CDE Bootcamp 3: Data Engineering Learning Journal
+# CDE Bootcamp 3: From Raw Data to Reliable Platforms
 
-**From the first shell command to cloud-connected data pipelines: learn the tools, understand the architecture, and engineer for failure.**
+**Move the data. Model the meaning. Make the platform dependable.**
 
-This repository documents my **Core Data Engineers Bootcamp 3** journey through data engineering foundations, Linux, Git, SQL, Python, data modeling, Change Data Capture (CDC), lakehouse architecture, dbt on Databricks, Docker, Airbyte ingestion, Apache Airflow orchestration, and AWS identity and networking.
+A pipeline that runs once is a demonstration. A pipeline that preserves meaning, recovers from failure, respects access boundaries, and makes its costs understandable is an engineering system. This repository follows my **Core Data Engineers Bootcamp 3** journey toward that second kind of pipeline.
 
-The material combines class notes, architecture diagrams, commands, code examples, troubleshooting records, and practical assignments. The goal is not to collect tools in isolation: it is to understand how data moves from operational sources to trusted analytical products, how workflows recover when something breaks, and how permissions, networking, and cost shape the architecture.
+The progression starts with Linux, Git, SQL, and Python, then connects data modeling, Change Data Capture (CDC), dbt, Databricks, Docker, Airbyte, and Apache Airflow. The latest AWS sessions take the journey underneath the pipeline: identity, network routes, compute, resilient infrastructure, object storage, and serverless analytics.
 
-**At a glance:** 49 numbered session files, including 46 substantive class notes and 3 placeholders; 2 practical assignments; SQL practice scripts; and 31 Python training notebooks, excluding Jupyter checkpoints.
+**Progress through Session 53:** 50 substantive class notes, 3 placeholders, 2 assignments, 5 SQL practice scripts, and 31 Python training notebooks, excluding Jupyter checkpoints.
+
+![Conceptual data platform showing source ingestion, Bronze/Silver/Gold modeling, consumption, and cross-cutting orchestration and cloud controls](classes/assets/data-platform-overview.svg)
+
+*A map of the concepts studied, not a single production deployment. Databricks, Snowflake, and AWS examples belong to distinct class exercises.*
 
 ## Start Here
 
 - **Follow the journey:** use the [learning roadmap](#learning-roadmap) for a session-by-session index grouped by topic.
 - **Get hands-on:** explore the [practical assets](#practical-assets) and [assignments](#practical-assignments).
-- **See how the pieces connect:** read the [current technical milestone](#current-technical-milestone).
+- **Catch up on recent work:** read [what we have covered so far](#what-we-have-covered-so-far) and the [current technical milestone](#current-technical-milestone).
+- **Understand the cloud architecture:** explore [network paths](#aws-from-a-network-diagram-to-a-working-connection) and the [S3, Glue, and Athena data lake](#s3-glue-and-athena-store-once-query-with-purpose).
 - **Choose your route:** use the [suggested reading order](#suggested-reading-order) for sequential or topic-focused study.
 
 This is a learning journal and reference collection, not a single deployable application. Examples span different tools, environments, and software versions; use each session's setup instructions and distinguish classroom demonstrations from production recommendations.
+
+## What We Have Covered So Far
+
+| Learning milestone | Work documented | Why it matters |
+| :--- | :--- | :--- |
+| Foundations and automation | Architecture trade-offs, Linux administration, Git collaboration, Bash ETL, and cron | Understand the system and automate repeatable work |
+| Querying and integration | SQL practice, Python notebooks, files, pandas, databases, APIs, and incremental watermarks | Retrieve, validate, and move data deliberately |
+| Modeling and analytics engineering | Normalization, grain, dimensional models, CDC, medallion layers, dbt tests, lineage, and CI/CD | Turn source records into consistent analytical products |
+| Reproducible ingestion | Docker images, volumes, Compose, Airbyte sync modes, and custom API connectors | Separate runtime problems from data movement problems |
+| Recoverable orchestration | Orders DAGs, TaskFlow, hooks, templated SQL, XComs, branching, alerts, and backfills | Coordinate dependencies and recover without guesswork |
+| Cloud platform foundations | IAM, VPC labs, EC2, network controls, instance profiles, Auto Scaling, and NAT | Explain both who can access a workload and how traffic reaches it |
+| Data lake and serverless analytics | S3 versioning and lifecycle policies, Parquet writes, Glue catalog registration, and Athena SQL | Separate stored data, metadata, and query compute |
+
+The material includes **design proposals, runnable assets, recorded class demonstrations, and production patterns discussed in class**. These are different kinds of evidence: a documented lab is not a claim that its infrastructure remains deployed.
 
 ## Repository Contents
 
@@ -25,8 +44,11 @@ cdebootcamp3/
 |   |-- A1-DataEngineeringFundamentals.md
 |   |-- assets/                # Complaint pipeline architecture diagram
 |   `-- linux-git-project-A2/   # Bash ETL, file organization, and cron
-|-- classes/                   # Notes and placeholders for Sessions 01-49
-|   |-- assets/                # SQL scripts and practical training files
+|-- classes/                   # Notes and placeholders for Sessions 01-53
+|   |-- assets/                # Vector diagrams, SQL scripts, and training files
+|   |   |-- data-platform-overview.svg
+|   |   |-- aws-network-architecture.svg
+|   |   |-- aws-data-lake-architecture.svg
 |   |   `-- python_ipynb/      # Four days of Python notebooks and solutions
 |   |-- 01DengFundamentals1.md
 |   |-- ...
@@ -35,11 +57,13 @@ cdebootcamp3/
 |   |-- ...
 |   |-- 42DBT_review.md
 |   |-- ...
-|   `-- 49AWS3.md
+|   |-- 49AWS3.md
+|   |-- ...
+|   `-- 53AWS7.md
 `-- README.md
 ```
 
-**Local companion project:** the sibling workspace directory `..\cdc_modeling\cdc_marketing\` contains the dbt project used during the Databricks sessions, including adapter and dependency configuration, profiles, macros, models, tests, and generated artifacts. It is outside this Git repository and is not included when this repository is cloned.
+**Scope boundary:** the dbt sessions refer to a companion project in the sibling workspace directory `..\cdc_modeling\cdc_marketing\`. It is outside this Git repository and is not included when this repository is cloned. Likewise, the class notes contain Airflow and cloud lab examples; this repository does not provide one root-level command to deploy every stack.
 
 ## Learning Roadmap
 
@@ -131,19 +155,23 @@ Session numbers preserve the class sequence; the tables group related subjects f
 | 45 | [Airflow VI: Alerting, Variables, and Branching](classes/45Airflow6.md) | Separating reporting from notification, `EmailOperator`, SMTP setup, Jinja templates, XCom return values, runtime Variables, and conditional execution with `BranchPythonOperator` |
 | 46 | [Airflow VII: Convergence, Scheduling, and Production](classes/46Airflow7.md) | Fan-in cleanup, skipped-task behavior, trigger rules, cron and interval scheduling, catchup and backfills, tags and defaults, failure callbacks, and deployment trade-offs |
 
-### AWS cloud foundations, IAM, and networking
+### AWS infrastructure, security, and data lakes
 
 | Session | Class | Main topics |
 | :---: | :--- | :--- |
 | 47 | [AWS I: Infrastructure and Identity](classes/47AWS1.md) | On-premises versus cloud infrastructure, Regions and Availability Zones, data residency, authentication versus authorization, IAM identities, ARNs, policy structure, PII access boundaries, and the IAM/VPC/EC2 foundation |
 | 48 | [AWS II: Least-Privilege Policies and S3 Access](classes/48AWS2.md) | Wildcard matching, actions versus resources, scoped IAM administration, group policies, bucket versus object ARNs, S3 listing and read permissions, and permission troubleshooting |
 | 49 | [AWS III: Networking and Pipeline Connectivity](classes/49AWS3.md) | VPC fundamentals, IPv4, CIDR prefixes and subnet masks, public versus private IPs, security-group rules, DNS, ports, RDS/PostgreSQL and Redshift connection troubleshooting, and data-egress costs |
+| 50 | [AWS IV: Building a Custom VPC](classes/50AWS4.md) | Subnet sizing, five reserved IPv4 addresses per subnet, route-table associations, Internet Gateways, public DNS hostnames, EC2 launch verification, and teardown |
+| 51 | [AWS V: EC2, Storage, and Network Security](classes/51AWS5.md) | Instance families and tenancy, EBS versus instance store, ENIs, Elastic IPs, SSH key permissions, Airflow UI access, stateful security groups, stateless NACLs, and Reachability Analyzer |
+| 52 | [AWS VI: Identity, Scaling, and Private Egress](classes/52AWS6.md) | IAM roles and instance profiles, temporary credentials, On-Demand/Reserved/Spot trade-offs, Auto Scaling self-healing, public NAT Gateways, and distributed Kubernetes patterns |
+| 53 | [AWS VII: S3, Glue, and Athena](classes/53AWS7.md) | Object storage, storage classes, lifecycle costs, versioning and delete-marker recovery, Parquet ingestion with `boto3` and `awswrangler`, Glue metadata, Athena SQL, and S3 gateway endpoints |
 
-> **Documentation status:** Sessions 01-49 are indexed here. Sessions 13 and 20 are empty placeholders; Session 34 contains only a brief placeholder. The remaining 46 sessions contain substantive notes, including the Airflow sequence, dbt case-study review, and AWS foundations.
+> **Documentation status:** all 53 numbered session files are indexed. Sessions 13 and 20 are empty; Session 34 contains only a brief placeholder. The remaining 50 contain substantive notes. Session 18 belongs to data modeling despite its filename; Session 42 is a dbt review within the Airflow sequence.
 
 ## Practical Assets
 
-The class material is supported by runnable examples in [classes/assets](classes/assets/):
+The [class assets](classes/assets/) combine practice files and the architecture illustrations used here. The three new diagrams are **SVG vector images**: sharp at any zoom level, suitable for high-resolution display and export, and available locally without external image hosting.
 
 ### SQL practice
 
@@ -162,6 +190,8 @@ The [Python notebook collection](classes/assets/python_ipynb/) contains 31 train
 - **Day 3 — Working with data:** detailed notebooks for [data structures](<classes/assets/python_ipynb/day_3/1. Detailed_Data_Structures.ipynb>), [file handling](<classes/assets/python_ipynb/day_3/2. Detailed_File_Handling.ipynb>), and [data manipulation with pandas](<classes/assets/python_ipynb/day_3/3. Detailed_Data_Manipulation_with_Pandas.ipynb>).
 - **Day 4 — Data engineering with Python:** practical notebooks for [database interaction](<classes/assets/python_ipynb/day_4/1. Detailed_Database_Interaction.ipynb>), [APIs and web scraping](<classes/assets/python_ipynb/day_4/2. Comprehensive_API_Web_Scraping.ipynb>), [end-to-end ETL](<classes/assets/python_ipynb/day_4/3. Comprehensive_ETL_Data_Pipeline.ipynb>), and full versus incremental loading.
 - **Bonus practice:** [choosing between dictionaries and lists of dictionaries](<classes/assets/python_ipynb/BONUS. Data_Shapes_dict_vs_list_of_dict.ipynb>) when navigating common data shapes.
+
+For concrete pipeline comparisons, open the [full-load notebook](classes/assets/python_ipynb/day_4/etl_full_load.ipynb), [incremental-load notebook](classes/assets/python_ipynb/day_4/etl_incremental.ipynb), and [pipeline-function notebook](classes/assets/python_ipynb/day_4/pipeline_function.ipynb).
 
 **Before running examples:** use an isolated Python environment and install the dependencies required by the chosen notebook. Database, API, and cloud exercises may also require separately configured services and credentials. For the Bash assignment, follow its own [requirements and usage instructions](assignments/linux-git-project-A2/README.md); these are not repository-wide setup steps.
 
@@ -184,114 +214,149 @@ The [second assignment](assignments/linux-git-project-A2/README.md) converts Lin
 
 ## Current Technical Milestone
 
-### From moving data to operating a data platform
+### From pipeline logic to platform reasoning
 
-The learning arc now connects ingestion, transformation, orchestration, and cloud foundations. Airbyte moves source data; dbt builds tested analytical models in the destination; Airflow coordinates batch workflow dependencies and recovery; Docker packages supporting runtimes; and AWS introduces the identity, network, and cost boundaries those workloads must respect.
+The current milestone is the ability to explain the complete path: **where data originates, how it is ingested, what its models mean, how tasks recover, which identity authorizes access, which route carries traffic, and which compute engine serves each consumer.**
 
-The diagram below is a conceptual synthesis of the sessions, not a claim that one complete production stack is deployed from this repository.
-
-```text
-Operational databases, SaaS APIs, and event sources
-        |
-        | Airbyte full-refresh, incremental, or CDC ingestion
-        v
-Raw / Bronze landing layer with source fidelity
-        |
-        | dbt staging, testing, deduplication, and enrichment
-        v
-Conformed Silver models and business-facing Gold marts
-        |
-        v
-BI, ML, reverse ETL, and operational consumption
-
-Across the workflow:
-  Airflow  -> schedules, dependencies, retries, branching, and alerts
-  Docker   -> packaged services and reproducible runtime environments
-  AWS      -> IAM permissions, network connectivity, and cost controls
-```
+The latest sessions extend that path into a decoupled AWS data lake. S3 holds the objects, Glue describes them, and Athena queries them. EC2, IAM, and VPC provide the supporting compute, identity, and connectivity concepts. The earlier Databricks and Snowflake exercises remain separate examples of warehouse and lakehouse modeling.
 
 ### dbt and Docker: model with confidence, run consistently
 
-The advanced dbt work now includes dynamic database and schema macros, safe environment routing, CI/CD-controlled production targets, dimensional marts, and incremental strategies ranging from merge and append to microbatch processing. These topics build on the layered models, tests, lineage, documentation, and Elementary observability established in earlier sessions.
+The dbt work progresses from connectivity and `dbt debug` to layered models, source freshness, tests, documentation, lineage, and Elementary observability. Advanced sessions add environment-routing macros, dimensional marts, incremental merge and append strategies, microbatch processing, and CI/CD safeguards.
 
 The [dbt case-study review](classes/42DBT_review.md) brings those ideas together around cross-platform marketing attribution: reconcile Facebook and Snapchat entities without losing grain, examine currency and timezone assumptions, inspect column-level lineage, distinguish Unity Catalog boundaries from workspace boundaries, and use isolated PR schemas and state-aware Slim CI to validate changes efficiently.
 
-The Docker notes cover image forensics and cache optimization, interactive container inspection, working-directory hygiene, persistent volumes, port mapping, multi-container orchestration with Docker Compose, multi-stage builds, non-root execution, and CPU, memory, swap, and logging guardrails. Session 34 remains a placeholder rather than a completed reference.
+Docker supplies the reproducibility side of the story: image layers and caching, container lifecycles, working directories, persistent volumes, ports, Compose, multi-stage builds, non-root execution, and resource limits. Start with [container fundamentals](classes/27DOCKER1.md), then move to [persistence](classes/32DOCKER4.md) and [Compose and production optimization](classes/35DOCKER6.md).
 
 ### Airbyte: move data without losing its meaning
 
-1. Select full-refresh, incremental append, or incremental append-and-deduplicate modes according to source behavior, volume, cost, cursor availability, and primary-key semantics.
-2. Preserve raw source fidelity and treat cleanup, conformance, and enrichment as downstream transformation responsibilities.
-3. Separate ingestion engines from orchestrators: Airbyte moves data, Airflow coordinates dependencies, and dbt transforms data in the destination.
-4. Understand the difference between query-driven cursor polling and log-based CDC through database WAL or binlog internals.
-5. Build API connectors with explicit record paths, pagination, schema handling, and state management.
-6. Use isolated POC environments, synthetic test data, staging storage, observability, and warehouse time travel to reduce production risk.
+The [PostgreSQL-to-Snowflake lab](classes/36AIRBYTE2.md) grounds the ingestion module in a concrete source-to-destination workflow. The following sessions examine [sync strategies and CDC internals](classes/37AIRBYTE3.md) and [custom API connectors](classes/38AIRBYTE4.md).
 
-Key references: [advanced dbt](classes/30DBT5.md), [Docker execution and caching](classes/31DOCKER3.md), [storage and networking](classes/32DOCKER4.md), [Compose and optimization](classes/35DOCKER6.md), and Airbyte [foundations](classes/33AIRBYTE1.md), [integration](classes/36AIRBYTE2.md), [sync strategies](classes/37AIRBYTE3.md), and [custom connectors](classes/38AIRBYTE4.md).
+The important decisions are not just which connector to select: they include source mutability, cursor reliability, primary-key semantics, pagination, schema evolution, raw-data fidelity, and recovery. Airbyte moves the records; it does not replace dbt's modeling responsibility or Airflow's orchestration responsibility.
 
 ### Airflow: turn scripts into observable, recoverable workflows
 
 The CDE Bites case study follows an orders pipeline from manually executed scripts and cron to dependency-aware DAGs. The [Airflow kickoff](classes/39Airflow1.md) establishes the orchestration problem; the following sessions develop the implementation and operational discipline:
 
-1. Define tasks and dependencies as code, inspect execution in the UI, and recover failed tasks without blindly repeating the entire pipeline.
-2. Understand the scheduler, metadata database, DAG processor, executor, workers, triggerer, and the trade-offs between Local, Celery, and Kubernetes execution.
-3. Keep DAG parsing lightweight: move database calls, API requests, and runtime configuration lookups out of top-level code.
-4. Separate orchestration from business logic; use reusable modules, external SQL templates, hooks, connections, provider packages, and managed secrets.
-5. Use TaskFlow and runtime context where appropriate; pass small metadata through XComs rather than bulk datasets, and push heavy transformations into the warehouse.
-6. Add reporting, email notifications, conditional branches, and explicit trigger rules so convergence and cleanup behave correctly when upstream tasks succeed, fail, or skip.
-7. Reason about schedules, catchup, backfills, failure callbacks, deployment topology, and the difference between updating mounted code and rebuilding an image.
+- **Architecture:** understand the scheduler, metadata database, DAG processor, executor, workers, and triggerer; compare Local, Celery, and Kubernetes execution.
+- **Clean DAGs:** avoid parse-time network calls, separate business logic, use external SQL templates and hooks, and push heavy compute into the warehouse.
+- **Task communication:** use TaskFlow and context; pass small metadata or storage references through XComs, not bulk datasets.
+- **Operational behavior:** add notifications, branches, fan-in cleanup, trigger rules, schedules, catchup, backfills, and failure callbacks.
 
-The [final Airflow session](classes/46Airflow7.md) closes the module with fan-in dependencies, cleanup, scheduling, and production trade-offs.
+The [final Airflow session](classes/46Airflow7.md) brings these together around scheduling and recovery. The distinction matters: a workflow with skipped branches needs different convergence rules from a purely linear workflow.
 
-### AWS: permissions and connectivity are part of the pipeline
+### AWS: from a network diagram to a working connection
 
-The latest [AWS networking session](classes/49AWS3.md) builds on [cloud and IAM foundations](classes/47AWS1.md) and [hands-on policy design](classes/48AWS2.md):
+The cloud module now spans seven sessions. [IAM foundations](classes/47AWS1.md) and [scoped policies](classes/48AWS2.md) establish access control; [network troubleshooting](classes/49AWS3.md) explains why valid credentials cannot fix an unreachable endpoint.
 
-- Distinguish Regions and Availability Zones, weigh latency and residency requirements, and understand the roles of IAM, VPC, and EC2.
-- Separate authentication from authorization; scope IAM actions and resource ARNs to the workload rather than granting blanket access.
-- Distinguish S3 bucket-level operations from object-level reads, and test both allowed and denied access paths.
-- Use IPv4, CIDR, DNS, endpoint ports, and security-group rules to reason about connectivity between ingestion tools, source databases, and warehouses.
-- Diagnose network reachability separately from credentials and database permissions. Security-group rules alone do not create a route to a private endpoint.
-- Account for data placement and chargeable transfer paths when estimating cost; do not assume every same-Region transfer is free.
+The [custom VPC lab](classes/50AWS4.md) turns CIDR math into infrastructure: split a `10.0.0.0/27` VPC into two `/28` subnets, account for five reserved IPv4 addresses per subnet, associate route tables, attach an Internet Gateway, enable DNS hostnames, verify an EC2 launch, and tear down the lab.
 
-The shift is practical: a correct SQL model cannot help if the source is unreachable, the role lacks access, or the architecture moves data at an unsustainable cost.
+![Conceptual AWS network with public and private subnets, Internet Gateway, public NAT Gateway, EC2 role identity, and a private route to S3 through a gateway endpoint](classes/assets/aws-network-architecture.svg)
+
+*A compact IPv4 teaching layout based on Sessions 50-53, not a highly available production blueprint. S3 is a regional service outside the VPC; the gateway endpoint provides a route to it.*
+
+The [EC2 and network-security session](classes/51AWS5.md) follows the connection into the instance: choose a workload-appropriate family, distinguish EBS from instance store, understand ENIs and Elastic IPs, fix SSH key permissions, and compare stateful security groups with stateless NACLs. Reachability Analyzer examines network configuration; application listening ports and authentication still need separate checks.
+
+The [advanced EC2 session](classes/52AWS6.md) adds role-based temporary credentials through instance profiles, purchasing-model trade-offs, Auto Scaling replacement behavior, private-subnet outbound access through a public NAT Gateway, and distributed Kubernetes patterns.
+
+**Production guardrails:** restrict SSH and administrative UIs to approved access paths; public exposure in a class demo is not a production default. Spot savings require interruption-tolerant workloads and recovery design. Auto Scaling replaces capacity but does not, by itself, preserve task state or guarantee availability.
+
+### S3, Glue, and Athena: store once, query with purpose
+
+[Session 53](classes/53AWS7.md) separates three responsibilities that are easy to blur:
+
+| Component | Responsibility | What it is not |
+| :--- | :--- | :--- |
+| Amazon S3 | Store objects under bucket names and keys | A query engine or a traditional filesystem |
+| AWS Glue Data Catalog | Record schemas, formats, and data locations | The store for the underlying data rows |
+| Amazon Athena | Run serverless SQL over supported data sources, including S3 | The storage layer |
+
+![AWS data lake architecture separating Parquet objects in S3, metadata in Glue, Athena exploration, and a warehouse modeling path for BI](classes/assets/aws-data-lake-architecture.svg)
+
+*Solid arrows show data movement or queries; dashed arrows show metadata interactions. The warehouse branch summarizes patterns discussed in class, not another deployment included here.*
+
+The documented hands-on sequence writes a pandas DataFrame as Parquet using `boto3` and `awswrangler`, registers the table in Glue, and queries it with Athena. A separate versioning lab demonstrates how removing a delete marker restores visibility of an earlier object version.
+
+The wider design discussion covers storage classes, lifecycle transitions, small-object overhead, retention, partitioning, columnar scans, and S3 gateway endpoints. These are engineering decisions, not just console settings: an archival tier can reduce storage costs while adding retrieval delays, and a poorly chosen query layout can scan far more data than necessary.
+
+**Cost discipline:** treat prices in class notes as examples, not quotes. Check the Region, service, transfer path, request and retrieval fees, and retention requirements. S3 gateway endpoints have no endpoint charge and can avoid NAT processing for eligible S3 traffic; S3 storage, requests, and Athena queries still incur their own charges. Neither same-Region traffic nor reserved compute should be assumed to provide a blanket cost or availability guarantee.
 
 ## Core Engineering Principles
 
+These principles connect the class exercises to dependable engineering practice. They are not a checklist of tools to collect, but habits for making data systems understandable, recoverable, secure, and economical.
+
+### Architecture and business context
+
 - Begin with the business problem, consumers, workload, and service expectations before selecting tools.
 - Separate write-optimized OLTP systems from read-optimized analytical workloads as systems scale.
+- Keep ingestion, orchestration, transformation, and serving responsibilities separated across purpose-built tools.
 - Preserve recoverable raw data, clean and conform reusable entities, and expose trusted business-ready outputs.
-- Choose CDC cursor columns according to source semantics; immutable event IDs and mutable update timestamps solve different problems.
+
+### Data modeling and source fidelity
+
 - Define table grain before choosing keys or writing transformations.
 - Use normalization to protect transactional integrity and dimensional models to simplify analytical reads.
+- Choose CDC cursor columns according to source semantics; immutable event IDs and mutable update timestamps solve different problems.
+- Choose ingestion sync modes from source mutability, data volume, cursor reliability, destination semantics, and recovery requirements.
+- Preserve source fidelity in raw storage and make pipeline state, schema evolution, pagination, and deduplication explicit.
+
+### Python, SQL, and reliable integration
+
 - Treat Python and SQL as engineering tools for automation, validation, integration, and reliable data movement.
 - Parameterize SQL, close resources deterministically, handle API pagination, and make incremental state explicit.
-- Keep environments reproducible with dependency files and isolated runtimes.
-- Keep credentials out of source control; use environment variables locally and managed secret stores in automation.
+- Make failures visible through meaningful errors and logs; do not treat missing data, failed requests, or incomplete loads as successful runs.
+- Design reruns deliberately: use appropriate keys, deduplication, and checkpoint handling so retries do not silently duplicate data or skip unfinished work.
+
+### Analytics engineering and data contracts
+
 - Make SQL transformations modular and dependency-aware with dbt `ref()` and `source()`.
 - Give staging, intermediate, and marts models distinct responsibilities and materializations.
 - Document columns as part of the data contract so people, BI tools, and AI agents interpret them consistently.
 - Monitor source freshness, test relational assumptions, and expose failures through observability tooling.
+- Isolate development and pull-request environments from production; validate model changes, dependencies, and business assumptions before promotion.
+
+### Reproducible environments and container operations
+
+- Keep environments reproducible with dependency files and isolated runtimes.
 - Package application code with its system dependencies so it behaves consistently across development and production.
 - Pin dependency versions and treat container images as immutable, reproducible deployment units.
 - Order Dockerfile instructions from least frequently changed to most frequently changed to preserve useful build-cache layers.
 - Keep persistent data outside disposable containers by using appropriate mounted storage.
 - Treat container networking, ports, volumes, process ownership, and resource limits as explicit production configuration.
-- Choose ingestion sync modes from source mutability, data volume, cursor reliability, destination semantics, and recovery requirements.
-- Keep ingestion, orchestration, transformation, and serving responsibilities separated across purpose-built tools.
-- Preserve source fidelity in raw storage and make pipeline state, schema evolution, pagination, and deduplication explicit.
+
+### Orchestration, scheduling, and recovery
+
 - Keep DAG definition and parsing free of network calls and other expensive side effects; perform work at task runtime.
 - Use XComs for small task metadata and references, not as a transport for bulk data.
+- Push heavy transformations into the warehouse or a suitable compute engine; use Airflow to coordinate the work rather than carry the dataset.
 - Design branching, convergence, cleanup, retries, and trigger rules together; a skipped task is not the same as a failed one.
 - Understand scheduling and data intervals before enabling catchup or launching historical backfills.
+- Keep reporting and notification responsibilities separate, and ensure alerts provide enough context to investigate and recover failed tasks.
+
+### Cloud identity, networking, and resilience
+
+- Keep credentials out of source control; use environment variables locally and managed secret stores in automation.
+- Prefer workload roles and temporary credentials where supported; on EC2, use IAM instance profiles instead of embedding long-lived access keys.
 - Use least-privilege cloud identities and distinguish bucket-level permissions from object-level permissions.
 - Debug connectivity in layers: DNS, routing, firewall rules, endpoint ports, authentication, and authorization.
+- Restrict SSH, administrative interfaces, and database access to approved paths; a public class demonstration is not a production access policy.
+- Match compute families and purchasing models to workload requirements; use Spot capacity only where interruptions and recovery are accounted for.
+- Treat Auto Scaling as capacity management, not a substitute for durable state, application recovery, or a tested availability design.
+
+### Data lakes, storage, and cost discipline
+
+- Separate object storage, metadata, and query compute: S3 holds objects, Glue catalogs their structure and locations, and Athena queries the data.
+- Choose file formats and partition layouts around access patterns; use columnar formats such as Parquet to reduce unnecessary reads.
+- Design storage classes, lifecycle transitions, versioning, and retention together; consider retrieval delays, request charges, and recovery needs as well as storage prices.
 - Treat cloud residency, compute placement, and data-transfer costs as design inputs, not billing surprises.
-- Test, review, observe, document, and secure data products as part of their implementation, not as afterthoughts.
+- Use suitable private service paths, such as S3 gateway endpoints, where applicable; avoiding NAT processing does not eliminate storage, request, or query charges.
+- Verify costs against the actual Region, service, and traffic path rather than treating classroom prices as universal guarantees.
+
+**Across every layer:** test, review, observe, document, and secure data products as part of their implementation, not as afterthoughts.
 
 ## Suggested Reading Order
 
-Follow Sessions 01-49 in numerical order for the full progression, skipping Sessions 13, 20, and 34 until their notes are added. The sequence moves from system fundamentals into operating-system and collaboration skills, then SQL and Python, followed by workload-aware modeling, CDC and lakehouse governance, layered dbt development on Databricks, Docker containerization, Airbyte ingestion, Airflow orchestration, a dbt case-study review, and AWS identity and networking. Session 42 revisits dbt between Airflow sessions.
+Follow Sessions 01-53 in numerical order for the full progression, skipping Sessions 13, 20, and 34 until their notes are added. The sequence moves from foundations and automation to querying, integration, modeling, reproducible ingestion, orchestration, and cloud platform design. Session 42 revisits dbt between Airflow sessions.
 
 For a topic-focused route:
 
@@ -305,10 +370,12 @@ For a topic-focused route:
 - **Docker:** Sessions 27, 29, 31, 32, 34, and 35 *(Session 34 is reserved)*
 - **Airbyte and ingestion:** Sessions 33, 36, 37, and 38
 - **Airflow and orchestration:** Sessions 39, 40, 41, 43, 44, 45, and 46
-- **AWS infrastructure, IAM, and networking:** Sessions 47, 48, and 49
+- **AWS identity and connectivity:** Sessions 47-49
+- **AWS networking, compute, and resilience:** Sessions 50-52
+- **AWS data lake and serverless analytics:** Session 53
 - **Hands-on projects:** [assignments](assignments/) and [class assets](classes/assets/)
 
-For a case-study route, start with the complaint-pipeline [architecture assignment](assignments/A1-DataEngineeringFundamentals.md), implement automation in the [Linux and Git project](assignments/linux-git-project-A2/README.md), follow the marketing-modeling work through the [dbt review](classes/42DBT_review.md), then trace the CDE Bites workflow from [orchestration foundations](classes/39Airflow1.md) to [operational scheduling and recovery](classes/46Airflow7.md). Finish with [AWS connectivity](classes/49AWS3.md) to see why permissions and networking belong in the same design conversation.
+For a case-study route, start with the complaint-pipeline [architecture assignment](assignments/A1-DataEngineeringFundamentals.md), explore automation in the [Linux and Git project](assignments/linux-git-project-A2/README.md), follow marketing attribution in the [dbt review](classes/42DBT_review.md), then trace CDE Bites from [orchestration foundations](classes/39Airflow1.md) to [scheduling and recovery](classes/46Airflow7.md). Finish with the [VPC lab](classes/50AWS4.md), [compute and identity patterns](classes/52AWS6.md), and [S3-to-Athena lab](classes/53AWS7.md) to connect pipeline design with the platform beneath it.
 
 Each populated class file is designed to work as a standalone technical reference, so readers can also jump directly to the topic they need. Check the session's tool versions before reusing commands or imports, especially across Airflow and provider releases.
 
@@ -318,4 +385,4 @@ This is an evolving collection of notes and assignments from **CDE Bootcamp 3**.
 
 ---
 
-<p align="center"><strong>Move the data. Model the meaning. Orchestrate the work. Understand the cloud.</strong></p>
+**The goal is not a longer list of tools. It is a better explanation of how the whole system works.**

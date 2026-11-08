@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1060" viewBox="0 0 1800 1060" role="img" aria-labelledby="title desc">
+  <title id="title">Store once, query with purpose: S3, Glue, and Athena</title>
+  <desc id="desc">Python with pandas, boto3, and AWS Wrangler writes Parquet objects to S3 and registers table metadata in the Glue Data Catalog. Athena consults Glue and queries S3 for exploration and ML. A separate conceptual warehouse branch loads and transforms data for BI, with dbt modeling inside the destination and Airflow coordinating tasks. Dashed arrows represent metadata, not data copies.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#397489"/></marker>
+    <marker id="metaArrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#7b679a"/></marker>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; fill: #183047; }
+      .kicker { fill: #397489; font-size: 18px; letter-spacing: 3px; }
+      .title { font-size: 48px; font-weight: 700; }
+      .heading { font-size: 27px; font-weight: 700; }
+      .body { font-size: 22px; }
+      .small { font-size: 19px; fill: #4b6378; }
+      .line { fill: none; stroke: #397489; stroke-width: 3; marker-end: url(#arrow); }
+      .meta { fill: none; stroke: #7b679a; stroke-width: 3; stroke-dasharray: 8 7; marker-end: url(#metaArrow); }
+    </style>
+  </defs>
+  <rect width="1800" height="1060" rx="24" fill="#f3f6fa"/>
+  <text x="65" y="65" class="kicker">AWS / THE STORAGE AND ANALYTICS LAYER</text>
+  <text x="65" y="126" class="title">Store once. Query with purpose.</text>
+  <text x="65" y="174" class="body">Keep objects, metadata, and query compute distinct.</text>
+  <rect x="65" y="265" width="440" height="190" rx="16" fill="#e8eff6" stroke="#8ba5bf"/>
+  <text x="95" y="306" class="small">DOCUMENTED PYTHON LAB</text>
+  <text x="95" y="352" class="heading">DataFrame to Parquet</text>
+  <text x="95" y="395" class="body">pandas + boto3 + awswrangler</text>
+  <text x="95" y="431" class="small">Write objects; register table metadata</text>
+  <rect x="65" y="555" width="440" height="220" rx="16" fill="#dcefeb" stroke="#70a798"/>
+  <text x="95" y="602" class="heading">Amazon S3 data lake</text>
+  <text x="95" y="646" class="body">Parquet objects and data locations</text>
+  <text x="95" y="685" class="body">Versioning and recovery</text>
+  <text x="95" y="726" class="small">Storage classes + lifecycle policies</text>
+  <path d="M285 455V543" class="line"/>
+  <text x="310" y="513" class="small">write data</text>
+  <rect x="685" y="265" width="445" height="190" rx="16" fill="#eee9f6" stroke="#aa99bd"/>
+  <text x="715" y="306" class="small">METADATA, NOT DATA ROWS</text>
+  <text x="715" y="352" class="heading">AWS Glue Data Catalog</text>
+  <text x="715" y="395" class="body">Schema, format, and S3 location</text>
+  <text x="715" y="431" class="small">Database and table registration</text>
+  <path d="M505 360H673" class="meta"/>
+  <text x="590" y="339" text-anchor="middle" class="small">register schema</text>
+  <rect x="685" y="555" width="445" height="220" rx="16" fill="#ffffff" stroke="#70a798"/>
+  <text x="715" y="602" class="heading">Amazon Athena</text>
+  <text x="715" y="646" class="body">Serverless SQL over S3</text>
+  <text x="715" y="685" class="body">Exploration and ML access</text>
+  <text x="715" y="726" class="small">Partitioning + columnar scan efficiency</text>
+  <path d="M907 555V467" class="meta"/>
+  <text x="930" y="513" class="small">read metadata</text>
+  <path d="M685 665H517" class="line"/>
+  <text x="595" y="644" text-anchor="middle" class="small">query objects</text>
+  <rect x="1285" y="555" width="450" height="220" rx="16" fill="#faf1db" stroke="#c7ac6c"/>
+  <text x="1315" y="602" class="heading">Warehouse + dbt models</text>
+  <text x="1315" y="646" class="body">Load, conform, test, and transform</text>
+  <text x="1315" y="685" class="body">Business marts and BI reporting</text>
+  <text x="1315" y="726" class="small">Redshift / Snowflake class patterns</text>
+  <path d="M505 735H560V827H1510V787" class="line"/>
+  <text x="945" y="815" text-anchor="middle" class="small">Separate ingestion / loading path; dbt transforms in the destination</text>
+  <rect x="1285" y="265" width="450" height="190" rx="16" fill="#e8eff6" stroke="#8ba5bf"/>
+  <text x="1315" y="312" class="heading">Workload separation</text>
+  <text x="1315" y="358" class="body">Athena scans lake objects</text>
+  <text x="1315" y="398" class="body">BI uses warehouse models</text>
+  <text x="1315" y="434" class="small">Reduce contention; choose compute deliberately</text>
+  <rect x="65" y="900" width="1670" height="90" rx="14" fill="#183e50"/>
+  <text x="95" y="937" font-size="24" style="fill:#ffffff">Airflow coordinates tasks / IAM authorizes access / gateway endpoints support eligible S3 paths</text>
+  <text x="95" y="970" font-size="20" style="fill:#c9e0e9">Cost drivers remain: stored bytes, requests, retrievals, lifecycle transitions, query scans, and network paths.</text>
+  <text x="65" y="1030" class="small">Session 53 / Conceptual architecture / Solid: data or query; dashed: metadata / No persistent cloud deployment implied</text>
+</svg>

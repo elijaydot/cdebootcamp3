@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="900" viewBox="0 0 1800 900" role="img" aria-labelledby="title desc">
+  <title id="title">From raw data to reliable platforms</title>
+  <desc id="desc">Conceptual synthesis of Bootcamp Sessions 1 through 53. Operational databases and APIs feed ingestion, then raw Bronze storage, conformed Silver models, and business-ready Gold marts. BI, ML, and reverse ETL consume outputs. Airflow, Docker, and cloud controls span the workflow. These are learning patterns, not one deployed stack.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0c172b"/><stop offset="1" stop-color="#172b46"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#80b9dd"/></marker>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; }
+      .kicker { fill: #8dc8ea; font-size: 19px; letter-spacing: 3px; }
+      .title { fill: #ffffff; font-size: 52px; font-weight: 700; }
+      .subtitle { fill: #bccde0; font-size: 24px; }
+      .heading { fill: #ffffff; font-size: 29px; font-weight: 700; }
+      .body { fill: #cfdaea; font-size: 22px; }
+      .label { fill: #9cc4e2; font-size: 18px; }
+      .line { fill: none; stroke: #80b9dd; stroke-width: 3; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1800" height="900" rx="24" fill="url(#bg)"/>
+  <text x="70" y="75" class="kicker">CDE BOOTCAMP 3 / THE LEARNING JOURNEY</text>
+  <text x="70" y="145" class="title">From raw data to reliable platforms</text>
+  <text x="70" y="194" class="subtitle">Different tools. Clear responsibilities. One connected engineering story.</text>
+  <g>
+    <rect x="70" y="280" width="270" height="230" rx="16" fill="#20354f" stroke="#526d88"/>
+    <text x="95" y="322" class="label">01 / ORIGIN</text>
+    <text x="95" y="368" class="heading">Sources</text>
+    <text x="95" y="410" class="body">Operational databases</text>
+    <text x="95" y="447" class="body">SaaS APIs and files</text>
+    <text x="95" y="484" class="body">Events and changes</text>
+    <rect x="410" y="280" width="270" height="230" rx="16" fill="#20354f" stroke="#526d88"/>
+    <text x="435" y="322" class="label">02 / MOVE</text>
+    <text x="435" y="368" class="heading">Ingestion</text>
+    <text x="435" y="410" class="body">Airbyte / Python</text>
+    <text x="435" y="447" class="body">Full or incremental</text>
+    <text x="435" y="484" class="body">Cursor polling / CDC</text>
+    <rect x="750" y="280" width="270" height="230" rx="16" fill="#473829" stroke="#c0945e"/>
+    <text x="775" y="322" class="label">03 / PRESERVE</text>
+    <text x="775" y="368" class="heading">Raw / Bronze</text>
+    <text x="775" y="410" class="body">Source fidelity</text>
+    <text x="775" y="447" class="body">Recoverable landing</text>
+    <text x="775" y="484" class="body">Storage + sync state</text>
+    <rect x="1090" y="280" width="270" height="230" rx="16" fill="#334455" stroke="#9aaec1"/>
+    <text x="1115" y="322" class="label">04 / CONFORM</text>
+    <text x="1115" y="368" class="heading">Silver models</text>
+    <text x="1115" y="410" class="body">Clean and deduplicate</text>
+    <text x="1115" y="447" class="body">Define grain and keys</text>
+    <text x="1115" y="484" class="body">Test + document</text>
+    <rect x="1430" y="280" width="300" height="230" rx="16" fill="#49442a" stroke="#d9bc68"/>
+    <text x="1455" y="322" class="label">05 / SERVE</text>
+    <text x="1455" y="368" class="heading">Gold products</text>
+    <text x="1455" y="410" class="body">Business-facing marts</text>
+    <text x="1455" y="447" class="body">BI / ML consumption</text>
+    <text x="1455" y="484" class="body">Reverse ETL outputs</text>
+  </g>
+  <path d="M340 395H398" class="line"/><path d="M680 395H738" class="line"/>
+  <path d="M1020 395H1078" class="line"/><path d="M1360 395H1418" class="line"/>
+  <path d="M1090 547H1730" stroke="#8dc8ea" stroke-width="2"/>
+  <text x="1410" y="579" text-anchor="middle" class="label">dbt: modular SQL, dependencies, tests, lineage</text>
+  <rect x="70" y="630" width="1660" height="160" rx="16" fill="#142b3e" stroke="#477790"/>
+  <text x="100" y="674" class="kicker">CROSS-CUTTING CONTROLS</text>
+  <text x="100" y="719" class="heading">Airflow</text>
+  <text x="100" y="755" class="body">Dependencies, retries, alerts</text>
+  <path d="M620 695V766" stroke="#477790" stroke-width="2"/>
+  <text x="660" y="719" class="heading">Docker</text>
+  <text x="660" y="755" class="body">Reproducible service runtimes</text>
+  <path d="M1170 695V766" stroke="#477790" stroke-width="2"/>
+  <text x="1210" y="719" class="heading">Cloud platform</text>
+  <text x="1210" y="755" class="body">Identity, networking, compute, cost</text>
+  <text x="70" y="848" class="label">Conceptual synthesis / Databricks, Snowflake, and AWS labs are separate exercises / Sessions 01-53</text>
+</svg>

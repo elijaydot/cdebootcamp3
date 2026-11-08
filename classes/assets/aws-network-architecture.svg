@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1100" viewBox="0 0 1800 1100" role="img" aria-labelledby="title desc">
+  <title id="title">AWS network paths and workload identity</title>
+  <desc id="desc">Compact IPv4 teaching layout. A VPC with CIDR 10.0.0.0/27 contains public subnet 10.0.0.0/28 and private subnet 10.0.0.16/28. The public route table points to an Internet Gateway. A private EC2 workload uses a public NAT Gateway for initiated internet connections and an S3 gateway endpoint for eligible S3 access. IAM role credentials authorize SDK operations independently of network routes. Security groups and NACLs are distinct controls. This is not a multi-AZ production design.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#397489"/></marker>
+    <marker id="metaArrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#7b679a"/></marker>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; fill: #183047; }
+      .kicker { fill: #397489; font-size: 18px; letter-spacing: 3px; }
+      .title { font-size: 48px; font-weight: 700; }
+      .heading { font-size: 26px; font-weight: 700; }
+      .body { font-size: 21px; }
+      .small { font-size: 18px; fill: #4b6378; }
+      .line { fill: none; stroke: #397489; stroke-width: 3; marker-end: url(#arrow); }
+      .meta { fill: none; stroke: #7b679a; stroke-width: 3; stroke-dasharray: 8 7; marker-end: url(#metaArrow); }
+    </style>
+  </defs>
+  <rect width="1800" height="1100" rx="24" fill="#f3f6fa"/>
+  <text x="65" y="65" class="kicker">AWS / CONNECTIVITY IS PART OF THE PIPELINE</text>
+  <text x="65" y="126" class="title">Follow the route. Check the identity.</text>
+  <text x="65" y="171" class="body">Network reachability and API authorization are separate requirements.</text>
+  <rect x="65" y="265" width="1260" height="590" rx="20" fill="#e8eff6" stroke="#8ba5bf" stroke-width="2"/>
+  <text x="95" y="305" class="heading">Custom VPC / 10.0.0.0/27</text>
+  <text x="95" y="340" class="small">Compact classroom address space; each /28 has 16 IPv4 addresses, 11 usable.</text>
+  <rect x="95" y="375" width="530" height="425" rx="16" fill="#e8f4f1" stroke="#5c9a8a" stroke-width="2"/>
+  <text x="120" y="414" class="heading">Public subnet / 10.0.0.0/28</text>
+  <text x="120" y="449" class="small">Public route: 0.0.0.0/0 to Internet Gateway</text>
+  <rect x="120" y="478" width="480" height="94" rx="12" fill="#ffffff" stroke="#8ebbae"/>
+  <text x="145" y="517" class="heading">Public route table</text>
+  <text x="145" y="551" class="body">VPC CIDR to local; default to IGW</text>
+  <rect x="120" y="655" width="480" height="108" rx="12" fill="#ffffff" stroke="#8ebbae"/>
+  <text x="145" y="695" class="heading">Public NAT Gateway + Elastic IP</text>
+  <text x="145" y="735" class="body">Return traffic for initiated connections</text>
+  <path d="M360 655V584" class="line"/>
+  <rect x="730" y="375" width="565" height="425" rx="16" fill="#eaf0fa" stroke="#829ebc" stroke-width="2"/>
+  <text x="755" y="414" class="heading">Private subnet / 10.0.0.16/28</text>
+  <text x="755" y="449" class="small">No direct public IPv4 ingress path</text>
+  <rect x="755" y="478" width="515" height="130" rx="12" fill="#ffffff" stroke="#9aafc6"/>
+  <text x="780" y="516" class="heading">EC2 workload / ENI</text>
+  <text x="780" y="554" class="body">Airflow worker or pipeline process</text>
+  <text x="780" y="589" class="small">Security group: stateful, allow rules</text>
+  <rect x="755" y="655" width="515" height="108" rx="12" fill="#ffffff" stroke="#9aafc6"/>
+  <text x="780" y="695" class="heading">Private route table</text>
+  <text x="780" y="735" class="body">Default to NAT; S3 prefix to endpoint</text>
+  <path d="M1010 608V643" class="line"/>
+  <path d="M755 711H612" class="line"/>
+  <text x="677" y="687" text-anchor="middle" class="small">outbound</text>
+  <rect x="160" y="203" width="370" height="62" rx="12" fill="#183e50"/>
+  <text x="345" y="242" text-anchor="middle" font-size="24" fill="#ffffff" style="fill:#ffffff">Internet Gateway</text>
+  <path d="M345 478V277" class="line"/>
+  <text x="550" y="235" class="small">Internet route / public addressing required for public instances</text>
+  <rect x="1400" y="270" width="335" height="145" rx="14" fill="#eee9f6" stroke="#aa99bd"/>
+  <text x="1425" y="310" class="heading">IAM role</text>
+  <text x="1425" y="348" class="body">Instance profile on EC2</text>
+  <text x="1425" y="385" class="small">Temporary SDK credentials</text>
+  <path d="M1400 345H1355V530H1282" class="meta"/>
+  <rect x="1400" y="645" width="335" height="118" rx="14" fill="#dcefeb" stroke="#70a798"/>
+  <text x="1425" y="688" class="heading">S3 gateway endpoint</text>
+  <text x="1425" y="727" class="body">Route-table integration</text>
+  <path d="M1270 711H1388" class="line"/>
+  <rect x="1400" y="460" width="335" height="116" rx="14" fill="#ffffff" stroke="#70a798"/>
+  <text x="1425" y="503" class="heading">Amazon S3</text>
+  <text x="1425" y="542" class="body">Regional service, not in VPC</text>
+  <path d="M1565 645V588" class="line"/>
+  <rect x="65" y="900" width="1670" height="112" rx="14" fill="#ffffff" stroke="#c5d3e0"/>
+  <text x="90" y="938" class="heading">Controls to verify</text>
+  <text x="90" y="973" class="body">DNS and routes / NACLs: stateless, allow + deny / security groups / listening ports / IAM permissions</text>
+  <text x="65" y="1058" class="small">Teaching topology / Sessions 50-53 / Solid: network path; dashed: identity / Production requires separate HA and access design</text>
+</svg>
