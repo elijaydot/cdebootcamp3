@@ -4,9 +4,9 @@
 
 A pipeline that runs once is a demonstration. A pipeline that preserves meaning, recovers from failure, respects access boundaries, and makes its costs understandable is an engineering system. This repository follows my **Core Data Engineers Bootcamp 3** journey toward that second kind of pipeline.
 
-The progression starts with Linux, Git, SQL, and Python, then connects data modeling, Change Data Capture (CDC), dbt, Databricks, Docker, Airbyte, and Apache Airflow. The latest AWS sessions take the journey underneath the pipeline: identity, network routes, compute, resilient infrastructure, object storage, and serverless analytics.
+The progression starts with Linux, Git, SQL, and Python, then connects data modeling, Change Data Capture (CDC), dbt, Databricks, Docker, Airbyte, and Apache Airflow. The AWS sessions take the journey underneath the pipeline: identity, networking, compute, data lakes, managed databases, and distributed warehousing. The latest Terraform sessions take the next step: turn infrastructure decisions into version-controlled, reviewable changes rather than one-off console clicks.
 
-**Progress through Session 53:** 50 substantive class notes, 3 placeholders, 2 assignments, 5 SQL practice scripts, and 31 Python training notebooks, excluding Jupyter checkpoints.
+**Progress through Session 58:** 55 substantive class notes, 3 placeholders, 2 assignments, 5 SQL practice scripts, and 31 Python training notebooks, excluding Jupyter checkpoints.
 
 ![Conceptual data platform showing source ingestion, Bronze/Silver/Gold modeling, consumption, and cross-cutting orchestration and cloud controls](classes/assets/data-platform-overview.svg)
 
@@ -18,6 +18,7 @@ The progression starts with Linux, Git, SQL, and Python, then connects data mode
 - **Get hands-on:** explore the [practical assets](#practical-assets) and [assignments](#practical-assignments).
 - **Catch up on recent work:** read [what we have covered so far](#what-we-have-covered-so-far) and the [current technical milestone](#current-technical-milestone).
 - **Understand the cloud architecture:** explore [network paths](#aws-from-a-network-diagram-to-a-working-connection) and the [S3, Glue, and Athena data lake](#s3-glue-and-athena-store-once-query-with-purpose).
+- **Go beyond console clicks:** follow [database reliability and warehouse performance](#rds-and-redshift-protect-the-source-understand-the-warehouse), then [Terraform and reviewed infrastructure changes](#terraform-from-console-clicks-to-reviewed-infrastructure).
 - **Choose your route:** use the [suggested reading order](#suggested-reading-order) for sequential or topic-focused study.
 
 This is a learning journal and reference collection, not a single deployable application. Examples span different tools, environments, and software versions; use each session's setup instructions and distinguish classroom demonstrations from production recommendations.
@@ -33,6 +34,8 @@ This is a learning journal and reference collection, not a single deployable app
 | Recoverable orchestration | Orders DAGs, TaskFlow, hooks, templated SQL, XComs, branching, alerts, and backfills | Coordinate dependencies and recover without guesswork |
 | Cloud platform foundations | IAM, VPC labs, EC2, network controls, instance profiles, Auto Scaling, and NAT | Explain both who can access a workload and how traffic reaches it |
 | Data lake and serverless analytics | S3 versioning and lifecycle policies, Parquet writes, Glue catalog registration, and Athena SQL | Separate stored data, metadata, and query compute |
+| Managed databases and warehouse performance | RDS provisioning and monitoring, Multi-AZ versus read replicas, CDC/WAL incident analysis, and Redshift MPP, sort keys, and distribution styles | Protect transactional systems and reason about analytical performance |
+| Infrastructure as Code and GitOps | Terraform lifecycle and state, resource references, data sources, SSM parameters, S3 remote state and locking, cost tags, and Atlantis pull-request workflows | Make infrastructure reproducible, reviewable, and accountable |
 
 The material includes **design proposals, runnable assets, recorded class demonstrations, and production patterns discussed in class**. These are different kinds of evidence: a documented lab is not a claim that its infrastructure remains deployed.
 
@@ -44,7 +47,7 @@ cdebootcamp3/
 |   |-- A1-DataEngineeringFundamentals.md
 |   |-- assets/                # Complaint pipeline architecture diagram
 |   `-- linux-git-project-A2/   # Bash ETL, file organization, and cron
-|-- classes/                   # Notes and placeholders for Sessions 01-53
+|-- classes/                   # Notes and placeholders for Sessions 01-58
 |   |-- assets/                # Vector diagrams, SQL scripts, and training files
 |   |   |-- data-platform-overview.svg
 |   |   |-- aws-network-architecture.svg
@@ -59,7 +62,12 @@ cdebootcamp3/
 |   |-- ...
 |   |-- 49AWS3.md
 |   |-- ...
-|   `-- 53AWS7.md
+|   |-- 53AWS7.md
+|   |-- 54AWS8.md
+|   |-- 55AWS9.md
+|   |-- 56Terraform1.md
+|   |-- 57Terraform2.md
+|   `-- 58Terraform3.md
 `-- README.md
 ```
 
@@ -155,7 +163,7 @@ Session numbers preserve the class sequence; the tables group related subjects f
 | 45 | [Airflow VI: Alerting, Variables, and Branching](classes/45Airflow6.md) | Separating reporting from notification, `EmailOperator`, SMTP setup, Jinja templates, XCom return values, runtime Variables, and conditional execution with `BranchPythonOperator` |
 | 46 | [Airflow VII: Convergence, Scheduling, and Production](classes/46Airflow7.md) | Fan-in cleanup, skipped-task behavior, trigger rules, cron and interval scheduling, catchup and backfills, tags and defaults, failure callbacks, and deployment trade-offs |
 
-### AWS infrastructure, security, and data lakes
+### AWS infrastructure, security, data lakes, and databases
 
 | Session | Class | Main topics |
 | :---: | :--- | :--- |
@@ -166,8 +174,18 @@ Session numbers preserve the class sequence; the tables group related subjects f
 | 51 | [AWS V: EC2, Storage, and Network Security](classes/51AWS5.md) | Instance families and tenancy, EBS versus instance store, ENIs, Elastic IPs, SSH key permissions, Airflow UI access, stateful security groups, stateless NACLs, and Reachability Analyzer |
 | 52 | [AWS VI: Identity, Scaling, and Private Egress](classes/52AWS6.md) | IAM roles and instance profiles, temporary credentials, On-Demand/Reserved/Spot trade-offs, Auto Scaling self-healing, public NAT Gateways, and distributed Kubernetes patterns |
 | 53 | [AWS VII: S3, Glue, and Athena](classes/53AWS7.md) | Object storage, storage classes, lifecycle costs, versioning and delete-marker recovery, Parquet ingestion with `boto3` and `awswrangler`, Glue metadata, Athena SQL, and S3 gateway endpoints |
+| 54 | [AWS VIII: RDS, Availability, and CDC Failure Modes](classes/54AWS8.md) | Managed PostgreSQL provisioning, DB subnet groups, instance and storage choices, Multi-AZ versus read replicas, database monitoring, WAL retention, replication slots, and CDC recovery trade-offs |
+| 55 | [AWS IX: Redshift and Distributed Warehouse Performance](classes/55AWS9.md) | Row versus columnar storage, leader and compute nodes, slices, MPP query execution, zone maps, `SORTKEY`, `DISTSTYLE` and `DISTKEY`, node choices, cluster connectivity, and monitoring |
 
-> **Documentation status:** all 53 numbered session files are indexed. Sessions 13 and 20 are empty; Session 34 contains only a brief placeholder. The remaining 50 contain substantive notes. Session 18 belongs to data modeling despite its filename; Session 42 is a dbt review within the Airflow sequence.
+### Terraform and Infrastructure as Code
+
+| Session | Class | Main topics |
+| :---: | :--- | :--- |
+| 56 | [Terraform I: IaC Foundations and Internals](classes/56Terraform1.md) | Declarative HCL, Terraform Core, provider plugins, resource-to-state mappings, `init`/`plan`/`apply`, drift and state-loss experiments, AWS authentication, and Atlantis workflow introduction |
+| 57 | [Terraform II: References, Data Sources, and Secrets](classes/57Terraform2.md) | Registry documentation, arguments and attributes, implicit dependencies, resource references, existing-resource lookups, SSM Parameter Store versus Secrets Manager, and sensitive values in state |
+| 58 | [Terraform III: Remote State and Production GitOps](classes/58Terraform3.md) | Cost allocation tags, versioned S3 backends, native state locking with `use_lockfile`, environment separation, generated passwords and RDS dependencies, `fmt`/`validate`, and reviewed Atlantis plan/apply workflows |
+
+> **Documentation status:** all 58 numbered session files are indexed. Sessions 13 and 20 are empty; Session 34 contains only a brief placeholder. The remaining 55 contain substantive notes. Session 18 belongs to data modeling despite its filename; Session 42 is a dbt review within the Airflow sequence.
 
 ## Practical Assets
 
@@ -218,7 +236,7 @@ The [second assignment](assignments/linux-git-project-A2/README.md) converts Lin
 
 The current milestone is the ability to explain the complete path: **where data originates, how it is ingested, what its models mean, how tasks recover, which identity authorizes access, which route carries traffic, and which compute engine serves each consumer.**
 
-The latest sessions extend that path into a decoupled AWS data lake. S3 holds the objects, Glue describes them, and Athena queries them. EC2, IAM, and VPC provide the supporting compute, identity, and connectivity concepts. The earlier Databricks and Snowflake exercises remain separate examples of warehouse and lakehouse modeling.
+That path now extends beyond a decoupled AWS data lake into database operations, warehouse performance, and infrastructure delivery. S3 holds objects, Glue describes them, and Athena queries them; RDS introduces source-database reliability, Redshift exposes distributed query mechanics, and Terraform makes supporting infrastructure explicit and reviewable. The earlier Databricks and Snowflake exercises remain separate examples of warehouse and lakehouse modeling.
 
 ### dbt and Docker: model with confidence, run consistently
 
@@ -247,7 +265,7 @@ The [final Airflow session](classes/46Airflow7.md) brings these together around 
 
 ### AWS: from a network diagram to a working connection
 
-The cloud module now spans seven sessions. [IAM foundations](classes/47AWS1.md) and [scoped policies](classes/48AWS2.md) establish access control; [network troubleshooting](classes/49AWS3.md) explains why valid credentials cannot fix an unreachable endpoint.
+The cloud module now spans nine sessions, from IAM through Redshift. [IAM foundations](classes/47AWS1.md) and [scoped policies](classes/48AWS2.md) establish access control; [network troubleshooting](classes/49AWS3.md) explains why valid credentials cannot fix an unreachable endpoint.
 
 The [custom VPC lab](classes/50AWS4.md) turns CIDR math into infrastructure: split a `10.0.0.0/27` VPC into two `/28` subnets, account for five reserved IPv4 addresses per subnet, associate route tables, attach an Internet Gateway, enable DNS hostnames, verify an EC2 launch, and tear down the lab.
 
@@ -281,6 +299,29 @@ The wider design discussion covers storage classes, lifecycle transitions, small
 
 **Cost discipline:** treat prices in class notes as examples, not quotes. Check the Region, service, transfer path, request and retrieval fees, and retention requirements. S3 gateway endpoints have no endpoint charge and can avoid NAT processing for eligible S3 traffic; S3 storage, requests, and Athena queries still incur their own charges. Neither same-Region traffic nor reserved compute should be assumed to provide a blanket cost or availability guarantee.
 
+### RDS and Redshift: protect the source, understand the warehouse
+
+The [RDS session](classes/54AWS8.md) moves from storing analytical files to operating the transactional systems that feed them. Its labs cover PostgreSQL provisioning, subnet groups, database connectivity, and health monitoring; the architecture discussion separates availability through Multi-AZ deployments from read scaling through replicas. The exact capabilities depend on the deployment type, so the two should not be treated as interchangeable.
+
+The defining case study follows a failed CDC consumer back to its source database: a stalled PostgreSQL replication slot can retain WAL until storage pressure threatens transactional workloads. The lesson is to monitor **consumer lag, retained WAL, and free storage together**, not just whether the ingestion job is running. Discarding replication state is a recovery decision with downstream reconciliation or resnapshot consequences, not routine cleanup.
+
+The [Redshift session](classes/55AWS9.md) then opens the warehouse's engine room: leader-node coordination, compute-node slices, parallel execution, columnar scans, and data movement between nodes. Sort keys and zone maps can reduce scanned blocks; distribution choices can reduce redistribution for suitable joins. Choose them from actual filters, joins, volume, and skew rather than assuming one layout suits every table.
+
+The documented cluster lab connects a SQL client, creates medallion schemas, and inspects performance metrics. The broader takeaway is simple: **a SQL query is also a storage and network workload**. Correct business logic and efficient physical execution deserve separate attention.
+
+### Terraform: from console clicks to reviewed infrastructure
+
+The three-session Terraform sequence turns the cloud module into a new engineering question: **can another engineer understand, review, and reproduce the infrastructure change before it reaches production?**
+
+- **Understand the engine:** [Session 56](classes/56Terraform1.md) connects HCL configuration, Terraform Core, provider plugins, and state. S3 provisioning, drift, state-loss, and authentication experiments explain the `init` → `plan` → `apply` workflow rather than treating it as a command ritual.
+- **Connect resources deliberately:** [Session 57](classes/57Terraform2.md) uses Registry documentation, resource references, and data sources to connect IAM resources and SSM parameters. References express dependencies; data sources look up existing infrastructure without adopting it into resource management.
+- **Make collaboration safe:** [Session 58](classes/58Terraform3.md) adds versioned S3 remote state, native locking through `use_lockfile` on supported Terraform versions, environment separation, generated database passwords, and `terraform fmt`/`terraform validate`. Cost allocation tags connect resources to ownership and billing analysis.
+- **Review before changing:** the Atlantis demonstration moves plans into GitHub pull requests and applies approved changes through automation. Approval requirements, apply permissions, and automerge behavior depend on repository and Atlantis configuration; they are controls to configure, not automatic guarantees.
+
+**State is sensitive operational data.** Generated passwords and values marked sensitive can still be persisted in state. Keep state out of Git, restrict and encrypt backend access, retain recoverable versions, and use locking to coordinate writers. A secret store does not remove copies already recorded in state.
+
+**Scope and safety:** these sessions document HCL examples and live workflows, not a standalone Terraform project shipped in this repository. The Braze-to-S3-to-Redshift scenario motivates infrastructure provisioning; it is not evidence of a complete deployed ingestion pipeline. Inspect plans for replacements and deletions, and remember that recreating infrastructure does not restore lost data.
+
 ## Core Engineering Principles
 
 These principles connect the class exercises to dependable engineering practice. They are not a checklist of tools to collect, but habits for making data systems understandable, recoverable, secure, and economical.
@@ -299,6 +340,7 @@ These principles connect the class exercises to dependable engineering practice.
 - Choose CDC cursor columns according to source semantics; immutable event IDs and mutable update timestamps solve different problems.
 - Choose ingestion sync modes from source mutability, data volume, cursor reliability, destination semantics, and recovery requirements.
 - Preserve source fidelity in raw storage and make pipeline state, schema evolution, pagination, and deduplication explicit.
+- Monitor CDC consumers alongside source-database replication slots, retained WAL, and free storage; downstream ingestion failures must not silently endanger transactional availability.
 
 ### Python, SQL, and reliable integration
 
@@ -351,12 +393,23 @@ These principles connect the class exercises to dependable engineering practice.
 - Treat cloud residency, compute placement, and data-transfer costs as design inputs, not billing surprises.
 - Use suitable private service paths, such as S3 gateway endpoints, where applicable; avoiding NAT processing does not eliminate storage, request, or query charges.
 - Verify costs against the actual Region, service, and traffic path rather than treating classroom prices as universal guarantees.
+- Choose warehouse sort and distribution strategies from observed query patterns and data skew; distinguish reducing scanned blocks from reducing network redistribution.
+- Apply consistent ownership and environment tags, and activate relevant cost allocation tags so infrastructure spending can be traced to teams and workloads.
+
+### Infrastructure as Code and change governance
+
+- Define infrastructure in version-controlled configuration; inspect plans for additions, updates, replacements, and deletions before applying changes.
+- Use resource references to express dependencies and data sources to look up existing infrastructure; a lookup is not the same as importing a resource into Terraform management.
+- Protect Terraform state as both an infrastructure inventory and a potential store of secrets; keep it out of Git and use encrypted, access-controlled remote storage with versioning and locking.
+- Separate environments and state boundaries deliberately; shared state defines a shared change surface, so review destructive operations and their dependencies carefully.
+- Run formatting and validation checks, then review the actual execution plan; valid HCL alone does not establish operational safety.
+- Enforce review and apply permissions through configured automation, and investigate drift rather than assuming Terraform continuously reconciles the cloud in the background.
 
 **Across every layer:** test, review, observe, document, and secure data products as part of their implementation, not as afterthoughts.
 
 ## Suggested Reading Order
 
-Follow Sessions 01-53 in numerical order for the full progression, skipping Sessions 13, 20, and 34 until their notes are added. The sequence moves from foundations and automation to querying, integration, modeling, reproducible ingestion, orchestration, and cloud platform design. Session 42 revisits dbt between Airflow sessions.
+Follow Sessions 01-58 in numerical order for the full progression, skipping Sessions 13, 20, and 34 until their notes are added. The sequence moves from foundations and automation to querying, integration, modeling, reproducible ingestion, orchestration, cloud platform design, database operations, and Infrastructure as Code. Session 42 revisits dbt between Airflow sessions.
 
 For a topic-focused route:
 
@@ -373,9 +426,11 @@ For a topic-focused route:
 - **AWS identity and connectivity:** Sessions 47-49
 - **AWS networking, compute, and resilience:** Sessions 50-52
 - **AWS data lake and serverless analytics:** Session 53
+- **AWS managed databases and distributed warehousing:** Sessions 54-55
+- **Terraform and Infrastructure as Code:** Sessions 56-58
 - **Hands-on projects:** [assignments](assignments/) and [class assets](classes/assets/)
 
-For a case-study route, start with the complaint-pipeline [architecture assignment](assignments/A1-DataEngineeringFundamentals.md), explore automation in the [Linux and Git project](assignments/linux-git-project-A2/README.md), follow marketing attribution in the [dbt review](classes/42DBT_review.md), then trace CDE Bites from [orchestration foundations](classes/39Airflow1.md) to [scheduling and recovery](classes/46Airflow7.md). Finish with the [VPC lab](classes/50AWS4.md), [compute and identity patterns](classes/52AWS6.md), and [S3-to-Athena lab](classes/53AWS7.md) to connect pipeline design with the platform beneath it.
+For a case-study route, start with the complaint-pipeline [architecture assignment](assignments/A1-DataEngineeringFundamentals.md), explore automation in the [Linux and Git project](assignments/linux-git-project-A2/README.md), follow marketing attribution in the [dbt review](classes/42DBT_review.md), then trace CDE Bites from [orchestration foundations](classes/39Airflow1.md) to [scheduling and recovery](classes/46Airflow7.md). Continue through the [VPC lab](classes/50AWS4.md), [compute and identity patterns](classes/52AWS6.md), and [S3-to-Athena lab](classes/53AWS7.md). Finish with the [CDC incident analysis](classes/54AWS8.md), [Redshift performance work](classes/55AWS9.md), and [Terraform GitOps workflow](classes/58Terraform3.md) to connect platform design with operational ownership and reviewed change.
 
 Each populated class file is designed to work as a standalone technical reference, so readers can also jump directly to the topic they need. Check the session's tool versions before reusing commands or imports, especially across Airflow and provider releases.
 
