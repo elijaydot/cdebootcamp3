@@ -4,9 +4,9 @@
 
 A pipeline that runs once is a demonstration. A pipeline that preserves meaning, recovers from failure, respects access boundaries, and makes its costs understandable is an engineering system. This repository follows my **Core Data Engineers Bootcamp 3** journey toward that second kind of pipeline.
 
-The progression starts with Linux, Git, SQL, and Python, then connects data modeling, Change Data Capture (CDC), dbt, Databricks, Docker, Airbyte, and Apache Airflow. The AWS sessions take the journey underneath the pipeline: identity, networking, compute, data lakes, managed databases, and distributed warehousing. The latest Terraform sessions take the next step: turn infrastructure decisions into version-controlled, reviewable changes rather than one-off console clicks.
+The progression starts with Linux, Git, SQL, and Python, then connects data modeling, Change Data Capture (CDC), dbt, Databricks, Docker, Airbyte, and Apache Airflow. The AWS sessions take the journey underneath the pipeline: identity, networking, compute, data lakes, managed databases, and distributed warehousing. Terraform turns infrastructure decisions into version-controlled, reviewable changes rather than one-off console clicks. The latest Apache Spark session opens the next chapter: understand how memory, partitions, shuffles, and skew shape distributed processing before reaching for more compute.
 
-**Progress through Session 58:** 55 substantive class notes, 3 placeholders, 2 assignments, 5 SQL practice scripts, and 31 Python training notebooks, excluding Jupyter checkpoints.
+**Progress through Session 60:** 57 substantive class notes, 3 placeholders, 2 assignments, 5 SQL practice scripts, and 31 Python training notebooks, excluding Jupyter checkpoints.
 
 ![Conceptual data platform showing source ingestion, Bronze/Silver/Gold modeling, consumption, and cross-cutting orchestration and cloud controls](classes/assets/data-platform-overview.svg)
 
@@ -19,6 +19,7 @@ The progression starts with Linux, Git, SQL, and Python, then connects data mode
 - **Catch up on recent work:** read [what we have covered so far](#what-we-have-covered-so-far) and the [current technical milestone](#current-technical-milestone).
 - **Understand the cloud architecture:** explore [network paths](#aws-from-a-network-diagram-to-a-working-connection) and the [S3, Glue, and Athena data lake](#s3-glue-and-athena-store-once-query-with-purpose).
 - **Go beyond console clicks:** follow [database reliability and warehouse performance](#rds-and-redshift-protect-the-source-understand-the-warehouse), then [Terraform and reviewed infrastructure changes](#terraform-from-console-clicks-to-reviewed-infrastructure).
+- **Think beyond one machine:** explore [Spark foundations](#apache-spark-follow-the-data-not-just-the-api) to see why data movement and uneven partitions can dominate job performance.
 - **Choose your route:** use the [suggested reading order](#suggested-reading-order) for sequential or topic-focused study.
 
 This is a learning journal and reference collection, not a single deployable application. Examples span different tools, environments, and software versions; use each session's setup instructions and distinguish classroom demonstrations from production recommendations.
@@ -35,7 +36,8 @@ This is a learning journal and reference collection, not a single deployable app
 | Cloud platform foundations | IAM, VPC labs, EC2, network controls, instance profiles, Auto Scaling, and NAT | Explain both who can access a workload and how traffic reaches it |
 | Data lake and serverless analytics | S3 versioning and lifecycle policies, Parquet writes, Glue catalog registration, and Athena SQL | Separate stored data, metadata, and query compute |
 | Managed databases and warehouse performance | RDS provisioning and monitoring, Multi-AZ versus read replicas, CDC/WAL incident analysis, and Redshift MPP, sort keys, and distribution styles | Protect transactional systems and reason about analytical performance |
-| Infrastructure as Code and GitOps | Terraform lifecycle and state, resource references, data sources, SSM parameters, S3 remote state and locking, cost tags, and Atlantis pull-request workflows | Make infrastructure reproducible, reviewable, and accountable |
+| Infrastructure as Code and GitOps | Terraform lifecycle and state, resource references, data sources, input variables, SSM parameters, remote locking, cost tags, CI checks, repository guardrails, and collaborative Atlantis workflows | Make infrastructure reproducible, reviewable, and accountable |
+| Distributed processing foundations | CPU/RAM/storage trade-offs, single-node limits, MapReduce versus Spark, narrow and wide transformations, shuffles, skew, spilling, and recomputation | Explain where processing time and resources go before tuning code |
 
 The material includes **design proposals, runnable assets, recorded class demonstrations, and production patterns discussed in class**. These are different kinds of evidence: a documented lab is not a claim that its infrastructure remains deployed.
 
@@ -47,7 +49,7 @@ cdebootcamp3/
 |   |-- A1-DataEngineeringFundamentals.md
 |   |-- assets/                # Complaint pipeline architecture diagram
 |   `-- linux-git-project-A2/   # Bash ETL, file organization, and cron
-|-- classes/                   # Notes and placeholders for Sessions 01-58
+|-- classes/                   # Notes and placeholders for Sessions 01-60
 |   |-- assets/                # Vector diagrams, SQL scripts, and training files
 |   |   |-- data-platform-overview.svg
 |   |   |-- aws-network-architecture.svg
@@ -67,7 +69,9 @@ cdebootcamp3/
 |   |-- 55AWS9.md
 |   |-- 56Terraform1.md
 |   |-- 57Terraform2.md
-|   `-- 58Terraform3.md
+|   |-- 58Terraform3.md
+|   |-- 59Terraform4.md
+|   `-- 60Spark1.md
 `-- README.md
 ```
 
@@ -184,8 +188,15 @@ Session numbers preserve the class sequence; the tables group related subjects f
 | 56 | [Terraform I: IaC Foundations and Internals](classes/56Terraform1.md) | Declarative HCL, Terraform Core, provider plugins, resource-to-state mappings, `init`/`plan`/`apply`, drift and state-loss experiments, AWS authentication, and Atlantis workflow introduction |
 | 57 | [Terraform II: References, Data Sources, and Secrets](classes/57Terraform2.md) | Registry documentation, arguments and attributes, implicit dependencies, resource references, existing-resource lookups, SSM Parameter Store versus Secrets Manager, and sensitive values in state |
 | 58 | [Terraform III: Remote State and Production GitOps](classes/58Terraform3.md) | Cost allocation tags, versioned S3 backends, native state locking with `use_lockfile`, environment separation, generated passwords and RDS dependencies, `fmt`/`validate`, and reviewed Atlantis plan/apply workflows |
+| 59 | [Terraform IV: Variables, CI, and Collaborative Guardrails](classes/59Terraform4.md) | Typed input variables, reusable tags, `CODEOWNERS`, branch rulesets, stale-approval dismissal, GitHub Actions formatting and validation checks, Atlantis project locks, stale branches, unapplied changes, and cloud API errors |
 
-> **Documentation status:** all 58 numbered session files are indexed. Sessions 13 and 20 are empty; Session 34 contains only a brief placeholder. The remaining 55 contain substantive notes. Session 18 belongs to data modeling despite its filename; Session 42 is a dbt review within the Airflow sequence.
+### Apache Spark and distributed processing
+
+| Session | Class | Main topics |
+| :---: | :--- | :--- |
+| 60 | [Spark I: Hardware, Shuffles, and Skew](classes/60Spark1.md) | CPU, RAM, and storage; workload-relative scale; single-node versus distributed engines; MapReduce intermediate I/O; narrow and wide transformations; shuffle costs; skew; in-memory processing; spilling; lineage-based recovery; and a conceptual orders walkthrough |
+
+> **Documentation status:** all 60 numbered session files are indexed. Sessions 13 and 20 are empty; Session 34 contains only a brief placeholder. The remaining 57 contain substantive notes. Session 18 belongs to data modeling despite its filename; Session 42 is a dbt review within the Airflow sequence. Session 59 closes Terraform; Session 60 begins Spark with architecture rather than a live PySpark lab.
 
 ## Practical Assets
 
@@ -236,7 +247,7 @@ The [second assignment](assignments/linux-git-project-A2/README.md) converts Lin
 
 The current milestone is the ability to explain the complete path: **where data originates, how it is ingested, what its models mean, how tasks recover, which identity authorizes access, which route carries traffic, and which compute engine serves each consumer.**
 
-That path now extends beyond a decoupled AWS data lake into database operations, warehouse performance, and infrastructure delivery. S3 holds objects, Glue describes them, and Athena queries them; RDS introduces source-database reliability, Redshift exposes distributed query mechanics, and Terraform makes supporting infrastructure explicit and reviewable. The earlier Databricks and Snowflake exercises remain separate examples of warehouse and lakehouse modeling.
+That path now extends beyond a decoupled AWS data lake into database operations, warehouse performance, infrastructure delivery, and distributed processing. S3 holds objects, Glue describes them, and Athena queries them; RDS introduces source-database reliability, Redshift exposes distributed query mechanics, and Terraform makes supporting infrastructure explicit and reviewable. The Terraform finale tests those workflows under concurrent collaboration; Spark then asks what happens when the workload spans machines. The earlier Databricks and Snowflake exercises remain separate examples of warehouse and lakehouse modeling.
 
 ### dbt and Docker: model with confidence, run consistently
 
@@ -311,16 +322,29 @@ The documented cluster lab connects a SQL client, creates medallion schemas, and
 
 ### Terraform: from console clicks to reviewed infrastructure
 
-The three-session Terraform sequence turns the cloud module into a new engineering question: **can another engineer understand, review, and reproduce the infrastructure change before it reaches production?**
+The four-session Terraform sequence turns the cloud module into a new engineering question: **can another engineer understand, review, and reproduce the infrastructure change before it reaches production?**
 
 - **Understand the engine:** [Session 56](classes/56Terraform1.md) connects HCL configuration, Terraform Core, provider plugins, and state. S3 provisioning, drift, state-loss, and authentication experiments explain the `init` → `plan` → `apply` workflow rather than treating it as a command ritual.
 - **Connect resources deliberately:** [Session 57](classes/57Terraform2.md) uses Registry documentation, resource references, and data sources to connect IAM resources and SSM parameters. References express dependencies; data sources look up existing infrastructure without adopting it into resource management.
 - **Make collaboration safe:** [Session 58](classes/58Terraform3.md) adds versioned S3 remote state, native locking through `use_lockfile` on supported Terraform versions, environment separation, generated database passwords, and `terraform fmt`/`terraform validate`. Cost allocation tags connect resources to ownership and billing analysis.
 - **Review before changing:** the Atlantis demonstration moves plans into GitHub pull requests and applies approved changes through automation. Approval requirements, apply permissions, and automerge behavior depend on repository and Atlantis configuration; they are controls to configure, not automatic guarantees.
+- **Prove the guardrails under collaboration:** [Session 59](classes/59Terraform4.md) introduces typed input variables and shared tags, then combines `CODEOWNERS`, branch rulesets, stale-approval dismissal, and GitHub Actions checks using `terraform fmt -check -recursive` and `terraform validate`. The live multi-engineer exercise exposes project-lock contention, stale branches, unapplied merged changes, region-specific AMI errors, and bucket-name collisions.
+
+The finale makes an important distinction: **approved code, applied infrastructure, and merged history are separate states**. Keep branches current, inspect the complete plan, and follow the team's configured apply/merge workflow. Coordinate before releasing an Atlantis project lock; it is not the same mechanism as the backend lock protecting a state write. Passing syntax and formatting checks does not prove that cloud API constraints or permissions will allow deployment.
 
 **State is sensitive operational data.** Generated passwords and values marked sensitive can still be persisted in state. Keep state out of Git, restrict and encrypt backend access, retain recoverable versions, and use locking to coordinate writers. A secret store does not remove copies already recorded in state.
 
 **Scope and safety:** these sessions document HCL examples and live workflows, not a standalone Terraform project shipped in this repository. The Braze-to-S3-to-Redshift scenario motivates infrastructure provisioning; it is not evidence of a complete deployed ingestion pipeline. Inspect plans for replacements and deletions, and remember that recreating infrastructure does not restore lost data.
+
+### Apache Spark: follow the data, not just the API
+
+[Session 60](classes/60Spark1.md) begins distributed processing with the hardware rather than a code snippet: CPU executes work, RAM holds working data, and storage supplies persistence. The question is not simply whether a file is "big," but whether the workload fits the machine's memory, CPU, I/O, and completion-time constraints.
+
+The session compares single-node processing with clusters and contrasts MapReduce's intermediate disk I/O with Spark's ability to pipeline work and reuse data in memory. Narrow transformations can operate within partitions; wide transformations can require redistribution. **A short `groupBy` or join expression can hide substantial serialization, network transfer, disk I/O, and uneven work.**
+
+The conceptual orders walkthrough filters paid orders, applies a discount, and aggregates revenue by region. It separates local computation from the shuffle needed for aggregation, then uses skewed keys to explain why one slow partition can hold up the rest of the job. The discussion also introduces spill-to-disk behavior, lineage-based recomputation, and mitigation ideas such as broadcast joins and key salting.
+
+**Progress boundary:** this is a foundational architecture session with a conceptual execution trace, not a completed PySpark coding lab. Spark does not keep every workload entirely in RAM, eliminate all disk I/O, or guarantee protection from out-of-memory failures. More nodes alone do not fix skew; the execution strategy and partition balance still matter.
 
 ## Core Engineering Principles
 
@@ -404,12 +428,23 @@ These principles connect the class exercises to dependable engineering practice.
 - Separate environments and state boundaries deliberately; shared state defines a shared change surface, so review destructive operations and their dependencies carefully.
 - Run formatting and validation checks, then review the actual execution plan; valid HCL alone does not establish operational safety.
 - Enforce review and apply permissions through configured automation, and investigate drift rather than assuming Terraform continuously reconciles the cloud in the background.
+- Use typed input variables for shared configuration, and combine code ownership with required reviews and CI checks; declaring reviewers alone does not enforce approval.
+- Keep branches synchronized and distinguish Atlantis project locks from backend state locks; coordinate changes rather than bypassing another engineer's active plan.
+- Verify apply results and reconcile them with merged configuration; PR approval and successful validation are not evidence that infrastructure was provisioned.
+
+### Distributed processing and resource awareness
+
+- Choose single-node or distributed execution from workload size, working-memory overhead, throughput needs, and operational complexity rather than a fixed "big data" threshold.
+- Distinguish partition-local transformations from operations that redistribute data; evaluate shuffle volume, serialization, network placement, and spill costs.
+- Inspect partition balance and skew before adding workers; one heavily loaded partition can dominate an otherwise idle cluster.
+- Treat memory as bounded and spilling as a trade-off, not a guarantee of success; size compute and storage for the actual execution pattern.
+- Understand what can be recomputed from lineage and durable sources; volatile cached data is not a substitute for persistent storage.
 
 **Across every layer:** test, review, observe, document, and secure data products as part of their implementation, not as afterthoughts.
 
 ## Suggested Reading Order
 
-Follow Sessions 01-58 in numerical order for the full progression, skipping Sessions 13, 20, and 34 until their notes are added. The sequence moves from foundations and automation to querying, integration, modeling, reproducible ingestion, orchestration, cloud platform design, database operations, and Infrastructure as Code. Session 42 revisits dbt between Airflow sessions.
+Follow Sessions 01-60 in numerical order for the full progression, skipping Sessions 13, 20, and 34 until their notes are added. The sequence moves from foundations and automation to querying, integration, modeling, reproducible ingestion, orchestration, cloud platform design, database operations, Infrastructure as Code, and distributed processing foundations. Session 42 revisits dbt between Airflow sessions.
 
 For a topic-focused route:
 
@@ -427,10 +462,11 @@ For a topic-focused route:
 - **AWS networking, compute, and resilience:** Sessions 50-52
 - **AWS data lake and serverless analytics:** Session 53
 - **AWS managed databases and distributed warehousing:** Sessions 54-55
-- **Terraform and Infrastructure as Code:** Sessions 56-58
+- **Terraform and Infrastructure as Code:** Sessions 56-59
+- **Apache Spark and distributed processing foundations:** Session 60
 - **Hands-on projects:** [assignments](assignments/) and [class assets](classes/assets/)
 
-For a case-study route, start with the complaint-pipeline [architecture assignment](assignments/A1-DataEngineeringFundamentals.md), explore automation in the [Linux and Git project](assignments/linux-git-project-A2/README.md), follow marketing attribution in the [dbt review](classes/42DBT_review.md), then trace CDE Bites from [orchestration foundations](classes/39Airflow1.md) to [scheduling and recovery](classes/46Airflow7.md). Continue through the [VPC lab](classes/50AWS4.md), [compute and identity patterns](classes/52AWS6.md), and [S3-to-Athena lab](classes/53AWS7.md). Finish with the [CDC incident analysis](classes/54AWS8.md), [Redshift performance work](classes/55AWS9.md), and [Terraform GitOps workflow](classes/58Terraform3.md) to connect platform design with operational ownership and reviewed change.
+For a case-study route, start with the complaint-pipeline [architecture assignment](assignments/A1-DataEngineeringFundamentals.md), explore automation in the [Linux and Git project](assignments/linux-git-project-A2/README.md), follow marketing attribution in the [dbt review](classes/42DBT_review.md), then trace CDE Bites from [orchestration foundations](classes/39Airflow1.md) to [scheduling and recovery](classes/46Airflow7.md). Continue through the [VPC lab](classes/50AWS4.md), [compute and identity patterns](classes/52AWS6.md), and [S3-to-Athena lab](classes/53AWS7.md). Follow the [CDC incident analysis](classes/54AWS8.md), [Redshift performance work](classes/55AWS9.md), and [Terraform GitOps workflow](classes/58Terraform3.md), then test the collaboration lessons against the [Terraform finale](classes/59Terraform4.md). Finish with the [Spark orders walkthrough](classes/60Spark1.md) to connect the same pipeline reasoning to distributed execution.
 
 Each populated class file is designed to work as a standalone technical reference, so readers can also jump directly to the topic they need. Check the session's tool versions before reusing commands or imports, especially across Airflow and provider releases.
 
