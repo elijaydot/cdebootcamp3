@@ -4,9 +4,9 @@
 
 A pipeline that runs once is a demonstration. A pipeline that preserves meaning, recovers from failure, respects access boundaries, and makes its costs understandable is an engineering system. This repository follows my **Core Data Engineers Bootcamp 3** journey toward that second kind of pipeline.
 
-The progression starts with Linux, Git, SQL, and Python, then connects data modeling, Change Data Capture (CDC), dbt, Databricks, Docker, Airbyte, and Apache Airflow. The AWS sessions take the journey underneath the pipeline: identity, networking, compute, data lakes, managed databases, and distributed warehousing. Terraform turns infrastructure decisions into version-controlled, reviewable changes rather than one-off console clicks. The latest Spark sessions move from hardware fundamentals into cluster execution, PySpark demonstrations, and query-plan inspection. Alongside them, a soft-skills workshop connects technical work to business outcomes and stakeholder trust.
+The progression starts with Linux, Git, SQL, and Python, then connects data modeling, Change Data Capture (CDC), dbt, Databricks, Docker, Airbyte, and Apache Airflow. The AWS sessions take the journey underneath the pipeline: identity, networking, compute, data lakes, managed databases, and distributed warehousing. Terraform turns infrastructure decisions into version-controlled, reviewable changes rather than one-off console clicks. The latest Spark sessions connect query plans, join strategies, and partitioning to an Airflow-orchestrated, ephemeral EMR workflow: deploy the code, process the data, and retire idle compute. Alongside them, a soft-skills workshop connects technical work to business outcomes and stakeholder trust.
 
-**Progress through Session 63:** 60 substantive class notes, 3 placeholders, 2 assignments, 5 SQL practice scripts, and 31 Python training notebooks, excluding Jupyter checkpoints.
+**Progress through Session 65:** 62 substantive class notes, 3 placeholders, 2 assignments, 5 SQL practice scripts, and 31 Python training notebooks, excluding Jupyter checkpoints.
 
 ![Conceptual data platform showing source ingestion, Bronze/Silver/Gold modeling, consumption, and cross-cutting orchestration and cloud controls](classes/assets/data-platform-overview.svg)
 
@@ -20,6 +20,7 @@ The progression starts with Linux, Git, SQL, and Python, then connects data mode
 - **Understand the cloud architecture:** explore [network paths](#aws-from-a-network-diagram-to-a-working-connection) and the [S3, Glue, and Athena data lake](#s3-glue-and-athena-store-once-query-with-purpose).
 - **Go beyond console clicks:** follow [database reliability and warehouse performance](#rds-and-redshift-protect-the-source-understand-the-warehouse), then [Terraform and reviewed infrastructure changes](#terraform-from-console-clicks-to-reviewed-infrastructure).
 - **Think beyond one machine:** explore [Spark foundations](#apache-spark-follow-the-data-not-just-the-api) to see why data movement and uneven partitions can dominate job performance.
+- **Connect the full workflow:** follow [ephemeral Spark orchestration](#ephemeral-emr-deploy-process-and-retire-the-compute) from reviewed code and S3 artifacts to Airflow-managed cluster teardown.
 - **Turn delivery into impact:** read [the soft-skills playbook](#soft-skills-make-the-engineering-outcome-understandable) for requirement discovery, business-focused updates, and stakeholder alignment.
 - **Choose your route:** use the [suggested reading order](#suggested-reading-order) for sequential or topic-focused study.
 
@@ -39,6 +40,7 @@ This is a learning journal and reference collection, not a single deployable app
 | Managed databases and warehouse performance | RDS provisioning and monitoring, Multi-AZ versus read replicas, CDC/WAL incident analysis, and Redshift MPP, sort keys, and distribution styles | Protect transactional systems and reason about analytical performance |
 | Infrastructure as Code and GitOps | Terraform lifecycle and state, resource references, data sources, input variables, SSM parameters, remote locking, cost tags, CI checks, repository guardrails, and collaborative Atlantis workflows | Make infrastructure reproducible, reviewable, and accountable |
 | Distributed processing and PySpark execution | Hardware trade-offs, shuffles and skew, YARN, driver/executor roles, deploy modes, lazy evaluation, jobs/stages/tasks, Catalyst plans, and Spark UI demonstrations | Connect the code you write to the work the cluster actually performs |
+| Spark performance and platform integration | Sort-merge versus broadcast joins, storage versus compute partitions, task concurrency, ephemeral EMR, Airflow operators and sensors, Ruff CI, and S3 artifact deployment | Tune the execution strategy and coordinate compute across its full lifecycle |
 | Business impact and professional communication | Outcomes versus outputs, stakeholder mapping, requirement discovery, incident updates, prioritization, and leadership without authority | Build useful data products and the trust needed to deliver them |
 
 The material includes **design proposals, runnable assets, recorded class demonstrations, and production patterns discussed in class**. These are different kinds of evidence: a documented lab is not a claim that its infrastructure remains deployed.
@@ -51,7 +53,7 @@ cdebootcamp3/
 |   |-- A1-DataEngineeringFundamentals.md
 |   |-- assets/                # Complaint pipeline architecture diagram
 |   `-- linux-git-project-A2/   # Bash ETL, file organization, and cron
-|-- classes/                   # Notes and placeholders for Sessions 01-63
+|-- classes/                   # Notes and placeholders for Sessions 01-65
 |   |-- assets/                # Vector diagrams, SQL scripts, and training files
 |   |   |-- data-platform-overview.svg
 |   |   |-- aws-network-architecture.svg
@@ -76,7 +78,9 @@ cdebootcamp3/
 |   |-- 60Spark1.md
 |   |-- 61Spark2.md
 |   |-- 62SoftSkills.md
-|   `-- 63Spark3.md
+|   |-- 63Spark3.md
+|   |-- 64Spark4.md
+|   `-- 65Spark5.md
 `-- README.md
 ```
 
@@ -202,6 +206,8 @@ Session numbers preserve the class sequence; the tables group related subjects f
 | 60 | [Spark I: Hardware, Shuffles, and Skew](classes/60Spark1.md) | CPU, RAM, and storage; workload-relative scale; single-node versus distributed engines; MapReduce intermediate I/O; narrow and wide transformations; shuffle costs; skew; in-memory processing; spilling; lineage-based recovery; and a conceptual orders walkthrough |
 | 61 | [Spark II: Cluster Architecture and Deployment](classes/61Spark2.md) | YARN ResourceManager and NodeManagers, driver/executor responsibilities, resource containers, `spark-submit`, heartbeats and recovery, dynamic allocation, client versus cluster deploy modes, local Docker/Jupyter demonstrations, and Amazon EMR submission |
 | 63 | [Spark III: Lazy Evaluation and Execution Plans](classes/63Spark3.md) | PySpark DataFrames, transformations versus actions, applications/jobs/stages/tasks, shuffle boundaries, Catalyst logical and physical plans, column pruning, predicate pushdown, `explain("extended")`, and Spark UI inspection |
+| 64 | [Spark IV: Join Strategies and Partitioning](classes/64Spark4.md) | `SortMergeJoin` versus `BroadcastHashJoin`, broadcast thresholds and memory risks, file-scan partition sizing, `openCostInBytes`, Hive-style storage partitions versus compute partitions, partition counts, and task concurrency in the Spark UI |
+| 65 | [Spark V: Ephemeral EMR and End-to-End Orchestration](classes/65Spark5.md) | EMR primary/core/task node roles, On-Demand and Spot trade-offs, S3 job artifacts and logs, Ruff CI and S3 deployment, Airflow cluster creation and step submission, rescheduling sensors, failure-path teardown, and executor-memory follow-up study |
 
 ### Soft skills and professional impact
 
@@ -209,7 +215,7 @@ Session numbers preserve the class sequence; the tables group related subjects f
 | :---: | :--- | :--- |
 | 62 | [The High-Performer Playbook](classes/62SoftSkills.md) | Outcomes versus outputs, power-interest stakeholder mapping, requirement discovery, technical-to-business translation, Status/Impact/Action/Next Update communication, prioritization frameworks, leadership without authority, and practical role-play exercises |
 
-> **Documentation status:** all 63 numbered session files are indexed. Sessions 13 and 20 are empty; Session 34 contains only a brief placeholder. The remaining 60 contain substantive notes. Session 18 belongs to data modeling despite its filename; Session 42 is a dbt review within the Airflow sequence. Session 59 closes Terraform; Sessions 60, 61, and 63 develop Spark, with the Session 62 soft-skills workshop between them.
+> **Documentation status:** all 65 numbered session files are indexed. Sessions 13 and 20 are empty; Session 34 contains only a brief placeholder. The remaining 62 contain substantive notes. Session 18 belongs to data modeling despite its filename; Session 42 is a dbt review within the Airflow sequence. Session 59 closes Terraform; Sessions 60, 61, and 63-65 develop Spark, with the Session 62 soft-skills workshop between them. Session 65 brings the Spark module together through an ephemeral EMR workflow.
 
 ## Practical Assets
 
@@ -239,6 +245,8 @@ For concrete pipeline comparisons, open the [full-load notebook](classes/assets/
 
 - [Session 61](classes/61Spark2.md) documents a Dockerized Jupyter environment, an S3-to-Parquet aggregation example, and `spark-submit` on Amazon EMR. The referenced Spark environment is a separate repository, not part of the 31-notebook collection above.
 - [Session 63](classes/63Spark3.md) contains inline PySpark examples for lazy evaluation, narrow versus wide transformations, Spark UI inspection, and extended query plans.
+- [Session 64](classes/64Spark4.md) compares join plans and inspects partition counts and task waves in the Spark UI.
+- [Session 65](classes/65Spark5.md) documents the [ephemeral Spark cluster bootstrap project](https://github.com/coredataengineers/ephemeral-spark-cluster-bootstrap), a separate repository containing Spark jobs, Airflow DAGs, EMR configuration, and CI/CD workflows. Its setup requires AWS resources and permissions and can incur cloud charges; it is not bundled here.
 - [Session 62](classes/62SoftSkills.md) provides executive-briefing and prioritization exercises to practice explaining impact and negotiating competing work.
 
 **Before running examples:** use an isolated Python environment and install the dependencies required by the chosen notebook. Database, API, and cloud exercises may also require separately configured services and credentials. For the Bash assignment, follow its own [requirements and usage instructions](assignments/linux-git-project-A2/README.md); these are not repository-wide setup steps.
@@ -266,7 +274,7 @@ The [second assignment](assignments/linux-git-project-A2/README.md) converts Lin
 
 The current milestone is the ability to explain the complete path: **where data originates, how it is ingested, what its models mean, how tasks recover, which identity authorizes access, which route carries traffic, and which compute engine serves each consumer.**
 
-That path now extends beyond a decoupled AWS data lake into database operations, warehouse performance, infrastructure delivery, and distributed processing. S3 holds objects, Glue describes them, and Athena queries them; RDS introduces source-database reliability, Redshift exposes distributed query mechanics, and Terraform makes supporting infrastructure explicit and reviewable. Spark now connects cluster architecture to PySpark execution and observable plans, while the soft-skills workshop asks how that engineering work supports real decisions. The earlier Databricks and Snowflake exercises remain separate examples of warehouse and lakehouse modeling.
+That path now extends beyond a decoupled AWS data lake into database operations, warehouse performance, infrastructure delivery, and distributed processing. S3 holds objects, Glue describes them, and Athena queries them; RDS introduces source-database reliability, Redshift exposes distributed query mechanics, and Terraform makes supporting infrastructure explicit and reviewable. Spark now connects execution plans and partitioning to a documented delivery-and-orchestration workflow spanning GitHub Actions, S3, Airflow, and transient EMR compute. The soft-skills workshop asks how that engineering work supports real decisions. The earlier Databricks and Snowflake exercises remain separate examples of warehouse and lakehouse modeling.
 
 ### dbt and Docker: model with confidence, run consistently
 
@@ -363,14 +371,29 @@ The session compares single-node processing with clusters and contrasts MapReduc
 
 The conceptual orders walkthrough filters paid orders, applies a discount, and aggregates revenue by region. It separates local computation from the shuffle needed for aggregation, then uses skewed keys to explain why one slow partition can hold up the rest of the job. The discussion also introduces spill-to-disk behavior, lineage-based recomputation, and mitigation ideas such as broadcast joins and key salting.
 
-The next two Spark sessions move from that conceptual trace to documented demonstrations:
+The subsequent Spark sessions move from that conceptual trace to documented demonstrations:
 
 - **Locate the work:** [Session 61](classes/61Spark2.md) separates the cluster manager's resource allocation from the driver's planning and scheduling and the executors' task processing. YARN ResourceManager, NodeManagers, and resource containers explain how CPU and memory allocations become running processes; YARN containers are not synonymous with Docker containers.
 - **Choose where the driver lives:** the local Docker/Jupyter and EMR examples contrast client and cluster deploy modes. Cluster mode places the driver inside the cluster rather than depending on the submitting laptop, but deployment choice still depends on the platform and workload. Heartbeat recovery and dynamic executor allocation do not guarantee recovery from every driver or application failure.
 - **Separate a plan from execution:** [Session 63](classes/63Spark3.md) demonstrates lazy DataFrame transformations, actions such as `show`, `count`, and writes, and the hierarchy of applications, jobs, stages, and tasks. Schema inference and other setup operations may also trigger work; a short script does not imply a single job.
 - **Inspect rather than guess:** `explain("extended")` exposes parsed, analyzed, optimized, and physical plans. The Spark UI connects those plans to stages, tasks, and shuffle metrics. Column pruning and predicate pushdown can reduce work, but the actual plan and runtime behavior determine what was avoided.
+- **Choose the join strategy deliberately:** [Session 64](classes/64Spark4.md) compares sort-merge joins with broadcast hash joins. Broadcasting a suitable small lookup can avoid redistributing the large input, but still transfers the lookup and consumes driver and executor memory. Verify size estimates, join support, configuration, and the actual physical plan rather than forcing a hint blindly.
+- **Separate files from execution units:** the same session distinguishes Hive-style storage partitions from Spark compute partitions. File layout, scan-size settings, and estimated file-opening cost influence scan partition counts; shuffle partitions are a separate concern. Tasks process partitions using available execution slots, so more partitions do not automatically mean more simultaneous work.
 
-**Progress boundary:** Session 60 is conceptual; Sessions 61 and 63 record PySpark, UI, and cluster-submission demonstrations, not a complete production Spark application shipped here. Spark does not keep every workload entirely in RAM, eliminate all disk I/O, or guarantee protection from out-of-memory failures. More nodes alone do not fix skew, and collecting a large result back to the driver can create a new memory bottleneck.
+**Progress boundary:** Session 60 is conceptual; Sessions 61 and 63-65 record PySpark, UI, cluster-submission, tuning, and orchestration demonstrations, not a complete production Spark application shipped here. Spark does not keep every workload entirely in RAM, eliminate all disk I/O, or guarantee protection from out-of-memory failures. More nodes alone do not fix skew, and collecting a large result back to the driver can create a new memory bottleneck.
+
+### Ephemeral EMR: deploy, process, and retire the compute
+
+[Session 65](classes/65Spark5.md) brings the modules together around a shipment-processing workflow. The delivery path is **reviewed PySpark code → CI checks → S3 job artifact → Airflow orchestration → EMR processing → durable outputs and logs → cluster teardown**.
+
+- **Deliver the job:** the demonstrated GitHub Actions workflow runs Ruff lint checks on pull requests and deploys the merged job to S3. Lint success is not evidence of correct data output; runtime and data validation remain separate responsibilities.
+- **Coordinate the lifecycle:** `EmrCreateJobFlowOperator` creates the cluster, `EmrAddStepsOperator` submits the Spark step, `EmrStepSensor` monitors completion, and `EmrTerminateJobFlowOperator` requests teardown. The demonstrated sensor uses reschedule mode to release its worker slot between polls.
+- **Plan capacity and interruption risk:** the class pattern uses On-Demand primary/core capacity and Spot task workers. EMR node roles, driver placement, HDFS needs, and interruption tolerance must be considered together; node-role labels alone do not guarantee where a process runs or how it recovers.
+- **Preserve evidence after compute disappears:** keep job artifacts, outputs, and diagnostic logs in S3, size local storage for shuffle and spill, and distinguish the EMR service role from the EC2 instance profile used by workloads.
+
+**Cleanup is part of correctness.** The demonstrated termination task uses `all_done` to cover failed upstream work, but a trigger rule alone cannot guarantee teardown after every scheduler, permission, or API failure. Verify cluster termination and retain a recovery path for orphaned resources. Transient compute reduces idle runtime; startup, processing, storage, logging, and related services still have costs.
+
+The session also assigns executor-memory management as follow-up study. Heap allocation is not entirely available to joins and aggregations: execution, storage, user allocations, and overhead need separate attention. This is a next-step learning item, not a completed memory-tuning benchmark.
 
 ### Soft skills: make the engineering outcome understandable
 
@@ -476,6 +499,10 @@ These principles connect the class exercises to dependable engineering practice.
 - Separate cluster resource allocation, driver coordination, and executor task processing when diagnosing Spark failures; identify which component and limit is involved.
 - Inspect query plans and Spark UI evidence before tuning; connect shuffle exchanges, stages, partition counts, and task durations to the execution strategy.
 - Account for actions and repeated execution, and avoid unbounded `collect()` or conversion to local data when the result cannot fit in driver memory.
+- Verify broadcast-side size and memory requirements before using join hints; avoiding a large-table shuffle does not make broadcasting free or universally safe.
+- Distinguish storage partitions, file-scan partitions, and shuffle partitions; tune their layout and counts against actual task concurrency and workload behavior.
+- Size local disk for intermediate shuffle and sort data as well as memory for processing; spill can fail when storage is exhausted.
+- Treat transient-cluster creation, monitoring, failure-path cleanup, and termination verification as one operational workflow; retain outputs and logs beyond the compute lifecycle.
 
 ### Stakeholder communication and professional ownership
 
@@ -488,7 +515,7 @@ These principles connect the class exercises to dependable engineering practice.
 
 ## Suggested Reading Order
 
-Follow Sessions 01-63 in numerical order for the full progression, skipping Sessions 13, 20, and 34 until their notes are added. The sequence moves from foundations and automation to querying, integration, modeling, reproducible ingestion, orchestration, cloud platform design, database operations, Infrastructure as Code, and Spark architecture and execution. Session 42 revisits dbt between Airflow sessions; Session 62 adds professional communication between Spark sessions.
+Follow Sessions 01-65 in numerical order for the full progression, skipping Sessions 13, 20, and 34 until their notes are added. The sequence moves from foundations and automation to querying, integration, modeling, reproducible ingestion, orchestration, cloud platform design, database operations, Infrastructure as Code, and Spark architecture, performance, and platform integration. Session 42 revisits dbt between Airflow sessions; Session 62 adds professional communication between Spark sessions.
 
 For a topic-focused route:
 
@@ -508,10 +535,12 @@ For a topic-focused route:
 - **AWS managed databases and distributed warehousing:** Sessions 54-55
 - **Terraform and Infrastructure as Code:** Sessions 56-59
 - **Apache Spark architecture and PySpark execution:** Sessions 60, 61, and 63
+- **Spark joins and partitioning:** Session 64
+- **Ephemeral EMR, Airflow integration, and job delivery:** Session 65
 - **Soft skills and professional impact:** Session 62
 - **Hands-on projects:** [assignments](assignments/) and [class assets](classes/assets/)
 
-For a case-study route, start with the complaint-pipeline [architecture assignment](assignments/A1-DataEngineeringFundamentals.md), explore automation in the [Linux and Git project](assignments/linux-git-project-A2/README.md), follow marketing attribution in the [dbt review](classes/42DBT_review.md), then trace CDE Bites from [orchestration foundations](classes/39Airflow1.md) to [scheduling and recovery](classes/46Airflow7.md). Continue through the [VPC lab](classes/50AWS4.md), [compute and identity patterns](classes/52AWS6.md), and [S3-to-Athena lab](classes/53AWS7.md). Follow the [CDC incident analysis](classes/54AWS8.md), [Redshift performance work](classes/55AWS9.md), and [Terraform GitOps workflow](classes/58Terraform3.md), then test the collaboration lessons against the [Terraform finale](classes/59Terraform4.md). Extend the [Spark orders walkthrough](classes/60Spark1.md) through [cluster submission](classes/61Spark2.md) and [plan inspection](classes/63Spark3.md), then use the [executive-briefing exercise](classes/62SoftSkills.md) to explain the workload's business impact.
+For a case-study route, start with the complaint-pipeline [architecture assignment](assignments/A1-DataEngineeringFundamentals.md), explore automation in the [Linux and Git project](assignments/linux-git-project-A2/README.md), follow marketing attribution in the [dbt review](classes/42DBT_review.md), then trace CDE Bites from [orchestration foundations](classes/39Airflow1.md) to [scheduling and recovery](classes/46Airflow7.md). Continue through the [VPC lab](classes/50AWS4.md), [compute and identity patterns](classes/52AWS6.md), and [S3-to-Athena lab](classes/53AWS7.md). Follow the [CDC incident analysis](classes/54AWS8.md), [Redshift performance work](classes/55AWS9.md), and [Terraform GitOps workflow](classes/58Terraform3.md), then test the collaboration lessons against the [Terraform finale](classes/59Terraform4.md). Extend the [Spark orders walkthrough](classes/60Spark1.md) through [cluster submission](classes/61Spark2.md), [plan inspection](classes/63Spark3.md), and [join and partition tuning](classes/64Spark4.md). Bring those pieces together in the [ephemeral EMR workflow](classes/65Spark5.md), then use the [executive-briefing exercise](classes/62SoftSkills.md) to explain the workload's business impact.
 
 Each populated class file is designed to work as a standalone technical reference, so readers can also jump directly to the topic they need. Check the session's tool versions before reusing commands or imports, especially across Airflow and provider releases.
 
